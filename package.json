@@ -1,11 +1,18 @@
 {
   "name": "werner-rotator-player",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist",
+  "files": [
+    "dist",
+    "src",
+    "!**/__tests__"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node webpack.devserver"
+    "build": "babel ./src --out-dir ./dist",
+    "dev": "node webpack.devserver",
+    "release": "npm run build && npm publish"
   },
   "keywords": [],
   "author": "",
