@@ -8,8 +8,7 @@ export default class Player extends Component {
 
 		this.slideRefs = {};
 		this.state = {
-			width: 400,
-			height: 800,
+			width: 0, height: 0,
 			counter: 0,
 			slideIndex: 0,
 		};
@@ -98,7 +97,9 @@ export default class Player extends Component {
 
 		if (slides.length === 1) {
 			const route = slides[0] || {}, { name, url } = route;
-			return <SlideItem index={0} name={name} url={url}/>;
+			return <SlideItem
+				index={0} name={name} url={url}
+				onHypeLayout={this.updateRatio}/>;
 		}  else if (slides.length >= 2) {
 			return slides.map((slide, i) => {
 				const { name, url } = slide;
@@ -107,16 +108,26 @@ export default class Player extends Component {
 					wrapperStyle={{
 						position: 'absolute', top: 0, left: 0, bottom: 0, right: 0,
 						...defaultItemStyle }}
-					index={i} key={i} name={name} url={url}/>;
+					index={i} key={i} name={name} url={url}
+					onHypeLayout={this.updateRatio}/>;
 			});
 		}
 	};
 
 	onResize = (e) => {
+		const { clientWidth, clientHeight } = this.props.container;
+
 		this.setState({
-			width: this.props.container.clientWidth,
-			height: this.props.container.clientHeight,
+			width: clientWidth,
+			height: clientWidth / this.state.widthRatio,
 		})
+	};
+
+	updateRatio = ({ sceneWidth, sceneHeight }) => {
+		const { clientWidth, clientHeight } = this.props.container,
+			widthRatio = sceneWidth / sceneHeight;
+
+		this.setState({ widthRatio, width: clientWidth, height: clientWidth / widthRatio });
 	};
 }
 

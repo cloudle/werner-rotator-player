@@ -1,7 +1,9 @@
 {
 	"data": {
 		"target": "carousel1",
-		"ride": "carousel"
+		"ride": "carousel",
+		"transition": "slide",
+		"slideFrom": "left"
 	},
 	"slides": [
 		{
@@ -10,13 +12,6 @@
 			"bgColor": "",
 			"name": "packrat",
 			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Pack Rat/Pack Rat.hyperesources/packrat_hype_generated_script.js"
-		},
-		{
-			"active": false,
-			"type": "hype",
-			"bgColor": "",
-			"name": "wgcatlandingpulloutstorage",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/Cat_Landing/Truck/WG_CatLanding - Pull Out Storage/WG_CatLanding - Pull Out Storage.hyperesources/wgcatlandingpulloutstorage_hype_generated_script.js"
 		},
 		{
 			"active": false,

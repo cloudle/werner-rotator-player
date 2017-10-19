@@ -36,24 +36,27 @@ export default class SlideItem extends Component {
 	};
 
 	initializeHypeLayout = () => {
-		if (!global.HYPE || !this.container) return;
+		if (!global.HYPE || !this.scriptContainer) return;
+		if (this.layoutInterval) clearInterval(this.layoutInterval);
 
-		this.container.measure((ox, oy, width, height, px, py) => {
-			if (this.layoutInterval) clearInterval(this.layoutInterval);
+		const { clientHeight, clientWidth } = this.scriptContainer,
+			hypeDocuments = global.HYPE.documents,
+			extractedName = extractHypeNameFromUrl(this.props.url),
+			hypeInstance = hypeDocuments[extractedName] || hypeDocuments[this.props.name],
+			currentLayoutName = hypeInstance.currentLayoutName(),
+			currentSceneName = hypeInstance.currentSceneName(),
+			layouts = hypeInstance.layoutsForSceneNamed(currentSceneName),
+			currentScene = layouts.find(layout => layout.name === currentLayoutName),
+			widthRatio = clientWidth / currentScene.width;
 
-			const hypeDocuments = global.HYPE.documents,
-				extractedName = extractHypeNameFromUrl(this.props.url),
-				hypeInstance = hypeDocuments[extractedName] || hypeDocuments[this.props.name],
-				currentLayoutName = hypeInstance.currentLayoutName(),
-				currentSceneName = hypeInstance.currentSceneName(),
-				layouts = hypeInstance.layoutsForSceneNamed(currentSceneName),
-				currentScene = layouts.find(layout => layout.name === currentLayoutName),
-				widthRatio = width / currentScene.width;
-
-			this.setState({ height: currentScene.height * widthRatio });
-			hypeInstance.relayoutIfNecessary && hypeInstance.relayoutIfNecessary();
-			currentScene.widthRatioToContainer = widthRatio;
+		if (this.props.onHypeLayout) this.props.onHypeLayout({
+			sceneWidth: currentScene.width,
+			sceneHeight: currentScene.height,
 		});
+
+		this.setState({ height: currentScene.height * widthRatio });
+		hypeInstance.relayoutIfNecessary && hypeInstance.relayoutIfNecessary();
+		currentScene.widthRatioToContainer = widthRatio;
 	};
 }
 

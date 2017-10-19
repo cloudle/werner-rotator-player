@@ -9,6 +9,7 @@
 	<style>
 		:focus { outline: none; }
 		body {
+			margin: 0;
 			font-family: "Avenir Next",Nunito,"Helvetica Neue",Helvetica,sans-serif;
 			font-size: 14px;
 			color: #888888;
@@ -16,9 +17,9 @@
 			overflow: hidden;
 		}
 		#root {
-			position: absolute;
-			top: 0; right: 0; bottom: 0; left: 0;
-			display: flex;
+			/*position: absolute;*/
+			/*top: 0; right: 0; bottom: 0; left: 0;*/
+			/*display: flex;*/
 		}
 		.touchable {
 			cursor: pointer;
@@ -38,6 +39,14 @@
 		.werner-slider.fade.active { opacity: 1; }
 		.werner-slider.horizon { transform: translate(100%, 0); }
 		.werner-slider.horizon.active { transform: translate(0, 0); }
+
+		.root-container {
+			background-color: red;
+		}
+
+		#root {
+
+		}
 	</style>
 </head>
 
