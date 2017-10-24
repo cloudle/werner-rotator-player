@@ -1,6 +1,6 @@
 {
   "name": "werner-rotator-player",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "",
   "main": "dist",
   "files": [
@@ -13,7 +13,7 @@
     "build": "babel ./src --out-dir ./dist",
     "bundle": "ENV=prod webpack --config webpack.config.js --progress",
     "dev": "node webpack.devserver",
-    "release": "npm run build && npm publish"
+    "release": "npm run bundle && npm run build && npm publish"
   },
   "keywords": [],
   "author": "",
