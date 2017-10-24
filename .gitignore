@@ -3,8 +3,8 @@
 .DS_Store
 
 #Web
-web
 dist
+web/index.html
 
 # Xcode
 #

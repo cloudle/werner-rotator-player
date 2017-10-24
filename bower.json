@@ -1,0 +1,13 @@
+{
+  "name": "werner-rotator-player",
+  "description": "",
+  "main": "web",
+  "files": [
+    "web"
+  ],
+  "authors": [
+    "cloudle <lehaoson@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/cloudle/werner-rotator-player"
+}

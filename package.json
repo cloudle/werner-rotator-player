@@ -13,7 +13,9 @@
     "build": "babel ./src --out-dir ./dist",
     "bundle": "ENV=prod webpack --config webpack.config.js --progress",
     "dev": "node webpack.devserver",
-    "release": "npm run build && npm publish"
+    "npm-release": "npm run build && npm publish",
+    "bower-release": "npm run bundle && bower publish",
+    "release": "npm run npm-release && npm run bower-release"
   },
   "keywords": [],
   "author": "",

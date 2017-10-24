@@ -31,7 +31,6 @@ if (env === 'dev') {
 	plugins.push(new webpack.NoEmitOnErrorsPlugin());
 }
 
-
 module.exports = {
 	cache: true,
 	devtool: prod ? false : 'eval-source-map',
@@ -41,7 +40,7 @@ module.exports = {
 	output: {
 		publicPath,
 		path: path.join(__dirname, 'web'),
-		filename: '[name].bundle.js',
+		filename: prod ? 'werner-player.js' : '[name].bundle.js',
 		chunkFilename: '[name].js'
 	},
 	resolve: {
