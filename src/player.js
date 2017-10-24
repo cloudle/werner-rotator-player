@@ -100,7 +100,7 @@ export default class Player extends Component {
 			return <SlideItem
 				index={0} name={name} url={url}
 				onHypeLayout={this.updateRatio}/>;
-		}  else if (slides.length >= 2) {
+		} else if (slides.length >= 2) {
 			return slides.map((slide, i) => {
 				const { name, url } = slide;
 				return <SlideItem

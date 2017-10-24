@@ -1,6 +1,6 @@
 {
   "name": "werner-rotator-player",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "description": "",
   "main": "dist",
   "files": [
@@ -11,6 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel ./src --out-dir ./dist",
+    "bundle": "ENV=prod webpack --config webpack.config.js --progress",
     "dev": "node webpack.devserver",
     "release": "npm run build && npm publish"
   },

@@ -42,21 +42,32 @@ export default class SlideItem extends Component {
 		const { clientHeight, clientWidth } = this.scriptContainer,
 			hypeDocuments = global.HYPE.documents,
 			extractedName = extractHypeNameFromUrl(this.props.url),
-			hypeInstance = hypeDocuments[extractedName] || hypeDocuments[this.props.name],
-			currentLayoutName = hypeInstance.currentLayoutName(),
-			currentSceneName = hypeInstance.currentSceneName(),
-			layouts = hypeInstance.layoutsForSceneNamed(currentSceneName),
-			currentScene = layouts.find(layout => layout.name === currentLayoutName),
-			widthRatio = clientWidth / currentScene.width;
+			hypeInstance = hypeDocuments[extractedName] || hypeDocuments[this.props.name];
 
-		if (this.props.onHypeLayout) this.props.onHypeLayout({
-			sceneWidth: currentScene.width,
-			sceneHeight: currentScene.height,
-		});
+		if (!hypeInstance) {
+			console.log(`[WernerPlayer] cannot find hype of name: ${item.name}`);
+			return;
+		}
 
-		this.setState({ height: currentScene.height * widthRatio });
-		hypeInstance.relayoutIfNecessary && hypeInstance.relayoutIfNecessary();
-		currentScene.widthRatioToContainer = widthRatio;
+		const setupLayout = () => {
+			const currentLayoutName = hypeInstance.currentLayoutName(),
+				currentSceneName = hypeInstance.currentSceneName(),
+				layouts = hypeInstance.layoutsForSceneNamed(currentSceneName),
+				currentScene = layouts.find(layout => layout.name === currentLayoutName),
+				widthRatio = clientWidth / currentScene.width;
+
+			if (this.props.onHypeLayout) this.props.onHypeLayout({
+				sceneWidth: currentScene.width,
+				sceneHeight: currentScene.height,
+			});
+
+			this.setState({ height: currentScene.height * widthRatio });
+			hypeInstance.relayoutIfNecessary && hypeInstance.relayoutIfNecessary();
+			currentScene.widthRatioToContainer = widthRatio;
+		};
+
+		window.addEventListener('resize', setupLayout);
+		setupLayout();
 	};
 }
 

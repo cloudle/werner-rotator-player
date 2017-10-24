@@ -8,7 +8,7 @@ const env = process.env.ENV || 'dev';
 const port = process.env.PORT || 3000;
 const prod = env === 'prod';
 const publicPath = '/';
-const entry = './index.js';
+const entry = prod ? './src/index.js' : './index.js';
 
 const plugins = [
 	new DefinePlugin({
