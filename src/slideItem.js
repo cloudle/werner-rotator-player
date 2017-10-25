@@ -37,6 +37,7 @@ export default class SlideItem extends Component {
 
 	initializeHypeLayout = () => {
 		if (!global.HYPE || !this.scriptContainer) return;
+		/* clear the initial layout watch.. */
 		if (this.layoutInterval) clearInterval(this.layoutInterval);
 
 		const { clientHeight, clientWidth } = this.scriptContainer,
@@ -45,7 +46,7 @@ export default class SlideItem extends Component {
 			hypeInstance = hypeDocuments[extractedName] || hypeDocuments[this.props.name];
 
 		if (!hypeInstance) {
-			console.log(`[WernerPlayer] cannot find hype of name: ${item.name}`);
+			console.log(`[WernerPlayer] cannot find hype of name: ${this.props.name}`);
 			return;
 		}
 
@@ -66,8 +67,12 @@ export default class SlideItem extends Component {
 			currentScene.widthRatioToContainer = widthRatio;
 		};
 
-		window.addEventListener('resize', setupLayout);
-		setupLayout();
+		/* register HypeLayoutEvent!! */
+		if (!global.HYPE_eventListeners) {
+			global.HYPE_eventListeners = [];
+		} else {
+			global.HYPE_eventListeners.push({ type: 'HypeLayoutRequest', callback: setupLayout })
+		}
 	};
 }
 

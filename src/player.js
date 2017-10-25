@@ -8,6 +8,7 @@ export default class Player extends Component {
 
 		this.slideRefs = {};
 		this.state = {
+			widthRatio: 0.5,
 			width: 0, height: 0,
 			counter: 0,
 			slideIndex: 0,
