@@ -75,7 +75,6 @@ export default class SlideItem extends Component {
 			global.HYPE_eventListeners = [];
 		} else {
 			global.HYPE_eventListeners.push({ type: 'HypeSceneLoad', callback: setupLayout });
-			console.log(global.HYPE_eventListeners);
 		}
 	};
 }

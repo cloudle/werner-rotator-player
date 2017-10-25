@@ -1377,11 +1377,14 @@ var SlideItem = function (_Component) {
 				currentScene.widthRatioToContainer = widthRatio;
 			};
 
-			/* register HypeLayoutEvent!! */
+			setupLayout();
+
+			/* register HypeSceneLoad!! which re-triggered when a scene load
+    * (responsive layout change also load new scene!) */
 			if (!global.HYPE_eventListeners) {
 				global.HYPE_eventListeners = [];
 			} else {
-				global.HYPE_eventListeners.push({ type: 'HypeLayoutRequest', callback: setupLayout });
+				global.HYPE_eventListeners.push({ type: 'HypeSceneLoad', callback: setupLayout });
 			}
 		};
 
