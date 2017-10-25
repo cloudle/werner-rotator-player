@@ -30,7 +30,7 @@ new WebpackDevServer(compiler, {
 	quiet: false,
 	noInfo: false,
 	reporter,
-}).listen(port, 'localhost', (err, result) => {
+}).listen(port, '0.0.0.0', (err, result) => {
 	if (err) console.log(err);
 	return true;
 });

@@ -64,14 +64,14 @@ export default class Player extends Component {
 				TweenMax.fromTo(
 					this.slideRefs[nextIndex],
 					tweenSpeed,
-					{ opacity: 0, },
+					{ opacity: 0.5, },
 					{ opacity: 1, ease: Power3.easeIn, });
 
 				TweenMax.fromTo(
 					this.slideRefs[currentIndex],
 					tweenSpeed,
 					{ opacity: 1, },
-					{ opacity: 0, ease: Power3.easeOut, delay: tweenSpeed / 2, });
+					{ opacity: 0, ease: Power3.easeOut, });
 			}
 
 			slideIndex = nextIndex;
@@ -93,8 +93,7 @@ export default class Player extends Component {
 	}
 
 	renderSlides = () => {
-		const { data, slides } = this.props.configs,
-			defaultItemStyle = getDefaultItemStyle(this.props.configs.data);
+		const { data, slides } = this.props.configs;
 
 		if (slides.length === 1) {
 			const route = slides[0] || {}, { name, url } = route;
@@ -107,8 +106,7 @@ export default class Player extends Component {
 				return <SlideItem
 					containerRef={(instance) => { this.slideRefs[i] = instance } }
 					wrapperStyle={{
-						position: 'absolute', top: 0, left: 0, bottom: 0, right: 0,
-						...defaultItemStyle }}
+						position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
 					index={i} key={i} name={name} url={url}
 					onHypeLayout={this.updateRatio}/>;
 			});
@@ -130,21 +128,6 @@ export default class Player extends Component {
 
 		this.setState({ widthRatio, width: clientWidth, height: clientWidth / widthRatio });
 	};
-}
-
-function getDefaultItemStyle(data = {}) {
-	const slideFrom = data.slideFrom || 'right',
-		transition = data.transition || 'fade';
-
-	if (transition === 'slide') {
-		if (slideFrom === 'left') {
-			return { transform: 'translate(-100%, 0)' };
-		} else {
-			return { transform: 'translate(100%, 0)' };
-		}
-	} else {
-		return { opacity: 0, }
-	}
 }
 
 function setInstantInterval(functionRef, interval) {
