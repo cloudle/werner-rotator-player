@@ -1242,9 +1242,9 @@ var Player = function (_Component) {
 					_gsap.TweenMax.fromTo(_this2.slideRefs[currentIndex], tweenSpeed, { x: 0 }, { x: -_this2.state.width, ease: _gsap.Power3.easeInOut });
 				}
 			} else {
-				_gsap.TweenMax.fromTo(_this2.slideRefs[nextIndex], tweenSpeed, { opacity: 0.5 }, { opacity: 1, ease: _gsap.Power3.easeIn });
+				_gsap.TweenMax.fromTo(_this2.slideRefs[nextIndex], tweenSpeed, { opacity: 0, zIndex: 9 }, { opacity: 1, ease: _gsap.Power3.easeIn });
 
-				_gsap.TweenMax.fromTo(_this2.slideRefs[currentIndex], tweenSpeed, { opacity: 1 }, { opacity: 0, ease: _gsap.Power3.easeOut });
+				_gsap.TweenMax.fromTo(_this2.slideRefs[currentIndex], tweenSpeed, { opacity: 1, zIndex: 8 }, { opacity: 0, ease: _gsap.Power3.easeOut, delay: tweenSpeed / 2 });
 			}
 
 			slideIndex = nextIndex;

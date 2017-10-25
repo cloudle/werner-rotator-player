@@ -64,14 +64,14 @@ export default class Player extends Component {
 				TweenMax.fromTo(
 					this.slideRefs[nextIndex],
 					tweenSpeed,
-					{ opacity: 0.5, },
+					{ opacity: 0, zIndex: 9 },
 					{ opacity: 1, ease: Power3.easeIn, });
 
 				TweenMax.fromTo(
 					this.slideRefs[currentIndex],
 					tweenSpeed,
-					{ opacity: 1, },
-					{ opacity: 0, ease: Power3.easeOut, });
+					{ opacity: 1, zIndex: 8 },
+					{ opacity: 0, ease: Power3.easeOut, delay: tweenSpeed / 2, });
 			}
 
 			slideIndex = nextIndex;
