@@ -1202,6 +1202,7 @@ var Player = function (_Component) {
 
 		_this.slideRefs = {};
 		_this.state = {
+			widthRatio: 0.5,
 			width: 0, height: 0,
 			counter: 0,
 			slideIndex: 0
@@ -1341,6 +1342,7 @@ var SlideItem = function (_Component) {
 
 		_this.initializeHypeLayout = function () {
 			if (!global.HYPE || !_this.scriptContainer) return;
+			/* clear the initial layout watch.. */
 			if (_this.layoutInterval) clearInterval(_this.layoutInterval);
 
 			var _this$scriptContainer = _this.scriptContainer,
@@ -1352,7 +1354,7 @@ var SlideItem = function (_Component) {
 
 
 			if (!hypeInstance) {
-				console.log('[WernerPlayer] cannot find hype of name: ' + item.name);
+				console.log('[WernerPlayer] cannot find hype of name: ' + _this.props.name);
 				return;
 			}
 
@@ -1375,8 +1377,12 @@ var SlideItem = function (_Component) {
 				currentScene.widthRatioToContainer = widthRatio;
 			};
 
-			window.addEventListener('resize', setupLayout);
-			setupLayout();
+			/* register HypeLayoutEvent!! */
+			if (!global.HYPE_eventListeners) {
+				global.HYPE_eventListeners = [];
+			} else {
+				global.HYPE_eventListeners.push({ type: 'HypeLayoutRequest', callback: setupLayout });
+			}
 		};
 
 		_this.state = {
