@@ -17,3 +17,15 @@ import configs from './slideConfigs.json'; // Normally we'll load this from a se
 const playerContainer = document.getElementById('sliderContainer');
 playSlide(playerContainer, configs);
 ```
+
+### Bower support:
+This library also available in Bower by
+```
+bower install --save werner-rotator-player
+```
+Emembed the bundled-for-web javascript file in our html will expose a global variable `WernerPlayer`,
+which could be use like this in our page:
+
+```
+WernerPlayer.playSide(element, configs);
+```
