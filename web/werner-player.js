@@ -1126,6 +1126,8 @@ var _slideItem2 = _interopRequireDefault(_slideItem);
 
 var _gsap = __webpack_require__(6);
 
+var _gsap2 = _interopRequireDefault(_gsap);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1133,6 +1135,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var validEasings = ['Power0', 'Power1', 'Power2', 'Power3', 'Power4', 'Back', 'Elastic', 'Bounce', 'Rough', 'SlowMo', 'Stepped', 'Circ', 'Expo', 'Sine'];
 
 var Player = function (_Component) {
 	_inherits(Player, _Component);
@@ -1196,6 +1200,58 @@ var Player = function (_Component) {
 			_this.setState({ widthRatio: widthRatio, width: clientWidth, height: clientWidth / widthRatio });
 		};
 
+		_this.playFadeEffect = function (currentElement, nextElement, speed, ease) {
+			_gsap.TweenMax.fromTo(nextElement, speed, { opacity: 0, zIndex: 9 }, { opacity: 1, ease: ease.easeIn });
+
+			_gsap.TweenMax.fromTo(currentElement, speed, { opacity: 1, zIndex: 8 }, { opacity: 0, ease: ease.easeOut, delay: speed / 2 });
+		};
+
+		_this.playTransitionEffect = function (currentElement, nextElement, speed, ease, slideFrom) {
+			var width = _this.state.width,
+			    height = _this.state.height;
+
+			if (slideFrom === 'left') {
+				_gsap.TweenMax.fromTo(nextElement, speed, { x: -width }, { x: 0, ease: ease.easeInOut });
+
+				_gsap.TweenMax.fromTo(currentElement, speed, { x: 0 }, { x: width, ease: ease.easeInOut });
+			} else if (slideFrom === 'top') {
+				_gsap.TweenMax.fromTo(nextElement, speed, { y: -height }, { y: 0, ease: ease.easeInOut });
+
+				_gsap.TweenMax.fromTo(currentElement, speed, { y: 0 }, { y: height, ease: ease.easeInOut });
+			} else if (slideFrom === 'bottom') {
+				_gsap.TweenMax.fromTo(nextElement, speed, { y: height }, { y: 0, ease: ease.easeInOut });
+
+				_gsap.TweenMax.fromTo(currentElement, speed, { y: 0 }, { y: -height, ease: ease.easeInOut });
+			} else {
+				_gsap.TweenMax.fromTo(nextElement, speed, { x: width }, { x: 0, ease: ease.easeInOut });
+
+				_gsap.TweenMax.fromTo(currentElement, speed, { x: 0 }, { x: -width, ease: ease.easeInOut });
+			}
+		};
+
+		_this.playCubeEffect = function (currentElement, nextElement, speed, ease, slideFrom) {
+			var width = _this.state.width;
+
+			if (slideFrom === 'left') {
+				_gsap.TweenMax.fromTo(nextElement, speed, { scaleX: 0.000001, opacity: 0.5, transformOrigin: 'center left' }, { scaleX: 1, opacity: 1, ease: ease.easeInOut });
+
+				_gsap.TweenMax.fromTo(currentElement, speed, { scaleX: 1, opacity: 1, transformOrigin: 'center right' }, { scaleX: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut });
+			} else if (slideFrom === 'top') {
+				_gsap.TweenMax.fromTo(nextElement, speed, { scaleY: 0.000001, opacity: 0.5, transformOrigin: 'top center' }, { scaleY: 1, opacity: 1, ease: ease.easeInOut });
+
+				_gsap.TweenMax.fromTo(currentElement, speed, { scaleY: 1, opacity: 1, transformOrigin: 'bottom center' }, { scaleY: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut });
+			} else if (slideFrom === 'bottom') {
+				_gsap.TweenMax.fromTo(nextElement, speed, { scaleY: 0.000001, opacity: 0.5, transformOrigin: 'bottom center' }, { scaleY: 1, opacity: 1, ease: ease.easeInOut });
+
+				_gsap.TweenMax.fromTo(currentElement, speed, { scaleY: 1, opacity: 1, transformOrigin: 'top center' }, { scaleY: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut });
+			} else {
+				/* right */
+				_gsap.TweenMax.fromTo(nextElement, speed, { scaleX: 0.000001, opacity: 0.5, transformOrigin: 'center right' }, { scaleX: 1, opacity: 1, ease: ease.easeInOut });
+
+				_gsap.TweenMax.fromTo(currentElement, speed, { scaleX: 1, opacity: 1, transformOrigin: 'center left' }, { scaleX: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut });
+			}
+		};
+
 		_this.slideRefs = {};
 		_this.state = {
 			widthRatio: 0.5,
@@ -1218,11 +1274,16 @@ var Player = function (_Component) {
 		    data = _props$configs$data === undefined ? {} : _props$configs$data,
 		    slides = _props$configs.slides,
 		    interval = data.interval || 6000,
-		    speed = data.speed || 3000,
+		    speed = data.speed || 1000,
 		    slideFrom = data.slideFrom || 'right',
 		    transition = data.transition || 'fade',
+		    easing = generateEasing(data.easing, data.customEasing),
 		    tweenSpeed = speed / 1000;
 
+		/* Make the first Item appear above
+   - by default last "absolute position" item will display above */
+
+		_gsap.TweenMax.set(this.slideRefs[slideIndex], { zIndex: 9 });
 
 		this.playingInterval = setInstantInterval(function () {
 			if (slides.length === 1) return;
@@ -1232,19 +1293,11 @@ var Player = function (_Component) {
 			    nextIndex = increasedIndex >= slides.length ? 0 : increasedIndex;
 
 			if (transition === 'slide') {
-				if (slideFrom === 'left') {
-					_gsap.TweenMax.fromTo(_this2.slideRefs[nextIndex], tweenSpeed, { x: -_this2.state.width }, { x: 0, ease: _gsap.Power3.easeInOut });
-
-					_gsap.TweenMax.fromTo(_this2.slideRefs[currentIndex], tweenSpeed, { x: 0 }, { x: _this2.state.width, ease: _gsap.Power3.easeInOut });
-				} else {
-					_gsap.TweenMax.fromTo(_this2.slideRefs[nextIndex], tweenSpeed, { x: _this2.state.width }, { x: 0, ease: _gsap.Power3.easeInOut });
-
-					_gsap.TweenMax.fromTo(_this2.slideRefs[currentIndex], tweenSpeed, { x: 0 }, { x: -_this2.state.width, ease: _gsap.Power3.easeInOut });
-				}
+				_this2.playTransitionEffect(_this2.slideRefs[currentIndex], _this2.slideRefs[nextIndex], tweenSpeed, easing, slideFrom);
+			} else if (transition === 'cube') {
+				_this2.playCubeEffect(_this2.slideRefs[currentIndex], _this2.slideRefs[nextIndex], tweenSpeed, easing, slideFrom);
 			} else {
-				_gsap.TweenMax.fromTo(_this2.slideRefs[nextIndex], tweenSpeed, { opacity: 0, zIndex: 9 }, { opacity: 1, ease: _gsap.Power3.easeIn });
-
-				_gsap.TweenMax.fromTo(_this2.slideRefs[currentIndex], tweenSpeed, { opacity: 1, zIndex: 8 }, { opacity: 0, ease: _gsap.Power3.easeOut, delay: tweenSpeed / 2 });
+				_this2.playFadeEffect(_this2.slideRefs[currentIndex], _this2.slideRefs[nextIndex], tweenSpeed, easing);
 			}
 
 			slideIndex = nextIndex;
@@ -1276,6 +1329,14 @@ exports.default = Player;
 function setInstantInterval(functionRef, interval) {
 	functionRef();
 	return setInterval(functionRef, interval);
+}
+
+function generateEasing(easing, customEasing) {
+	if (validEasings.indexOf(easing) >= 0) {
+		return _gsap2.default[easing];
+	} else {
+		return _gsap.Power3;
+	}
 }
 
 /***/ }),
