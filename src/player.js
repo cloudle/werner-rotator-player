@@ -12,7 +12,7 @@ export default class Player extends Component {
 
 		this.slideRefs = {};
 		this.state = {
-			widthRatio: 0.5,
+			widthRatio: 9999, /* make initial height very close to ZERO */
 			width: 0, height: 0,
 			counter: 0,
 			slideIndex: 0,
@@ -110,7 +110,7 @@ export default class Player extends Component {
 		return <div
 			style={{
 				position: 'absolute', zIndex: 11, bottom: 12, left: '50%',
-				transform: [{ translateX: '-50%' }] }}>
+				transform: 'translate(-50%, 0)' }}>
 			{this.props.configs.slides.map((slide, i) => {
 				const activeStyle = i === this.state.slideIndex ? {
 						backgroundColor: 'rgba(255, 255, 255, 0.8)',

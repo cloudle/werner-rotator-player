@@ -1184,7 +1184,7 @@ var Player = function (_Component) {
 				{
 					style: {
 						position: 'absolute', zIndex: 11, bottom: 12, left: '50%',
-						transform: [{ translateX: '-50%' }] } },
+						transform: 'translate(-50%, 0)' } },
 				_this.props.configs.slides.map(function (slide, i) {
 					var activeStyle = i === _this.state.slideIndex ? {
 						backgroundColor: 'rgba(255, 255, 255, 0.8)',
@@ -1282,7 +1282,7 @@ var Player = function (_Component) {
 
 		_this.slideRefs = {};
 		_this.state = {
-			widthRatio: 0.5,
+			widthRatio: 9999, /* make initial height very close to ZERO */
 			width: 0, height: 0,
 			counter: 0,
 			slideIndex: 0
