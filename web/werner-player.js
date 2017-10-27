@@ -1118,6 +1118,8 @@ if (typeof window !== 'undefined') {
 exports.__esModule = true;
 exports.default = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _preact = __webpack_require__(0);
 
 var _slideItem = __webpack_require__(5);
@@ -1174,6 +1176,32 @@ var Player = function (_Component) {
 						onHypeLayout: _this.updateRatio });
 				});
 			}
+		};
+
+		_this.renderNavIndicator = function () {
+			return (0, _preact.h)(
+				'div',
+				{
+					style: {
+						position: 'absolute', zIndex: 11, bottom: 12, left: '50%',
+						transform: [{ translateX: '-50%' }] } },
+				_this.props.configs.slides.map(function (slide, i) {
+					var activeStyle = i === _this.state.slideIndex ? {
+						backgroundColor: 'rgba(255, 255, 255, 0.8)',
+						width: 12, height: 12, borderRadius: 6
+					} : {
+						backgroundColor: 'rgba(255, 255, 255, 0.5)',
+						width: 8, height: 8, borderRadius: 4,
+						marginBottom: 2
+					};
+
+					return (0, _preact.h)('div', {
+						style: _extends({
+							display: 'inline-block',
+							marginLeft: 3, marginRight: 3
+						}, activeStyle) });
+				})
+			);
 		};
 
 		_this.onResize = function (e) {
@@ -1268,7 +1296,6 @@ var Player = function (_Component) {
 		this.onResize();
 		window.addEventListener('resize', this.onResize);
 
-		var slideIndex = 0;
 		var _props$configs = this.props.configs,
 		    _props$configs$data = _props$configs.data,
 		    data = _props$configs$data === undefined ? {} : _props$configs$data,
@@ -1280,17 +1307,21 @@ var Player = function (_Component) {
 		    easing = generateEasing(data.easing, data.customEasing),
 		    tweenSpeed = speed / 1000;
 
-		/* Make the first Item appear above
-   - by default last "absolute position" item will display above */
+		var slideIndex = slides.length - 1;
 
-		_gsap.TweenMax.set(this.slideRefs[slideIndex], { zIndex: 9 });
+		_gsap.TweenMax.set(this.slideRefs[0], { zIndex: 9 });
 
-		this.playingInterval = setInstantInterval(function () {
+		this.playingInterval = setInterval(function () {
 			if (slides.length === 1) return;
 
 			var currentIndex = slideIndex,
 			    increasedIndex = currentIndex + 1,
 			    nextIndex = increasedIndex >= slides.length ? 0 : increasedIndex;
+
+			/* Make the first Item appear above
+   - by default last "absolute position" item will display above */
+			_gsap.TweenMax.set(_this2.slideRefs[currentIndex], { zIndex: 8 });
+			_gsap.TweenMax.set(_this2.slideRefs[nextIndex], { zIndex: 9 });
 
 			if (transition === 'slide') {
 				_this2.playTransitionEffect(_this2.slideRefs[currentIndex], _this2.slideRefs[nextIndex], tweenSpeed, easing, slideFrom);
@@ -1301,6 +1332,7 @@ var Player = function (_Component) {
 			}
 
 			slideIndex = nextIndex;
+			_this2.setState({ slideIndex: nextIndex });
 		}, interval);
 	};
 
@@ -1316,7 +1348,8 @@ var Player = function (_Component) {
 				style: {
 					position: 'relative', overflow: 'hidden',
 					width: this.state.width, height: this.state.height } },
-			this.renderSlides()
+			this.renderSlides(),
+			this.renderNavIndicator()
 		);
 	};
 

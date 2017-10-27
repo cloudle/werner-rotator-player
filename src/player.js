@@ -23,7 +23,6 @@ export default class Player extends Component {
 		this.onResize();
 		window.addEventListener('resize', this.onResize);
 
-		let slideIndex = 0;
 		const { data = {}, slides } = this.props.configs,
 			interval = data.interval || 6000,
 			speed = data.speed || 1000,
@@ -31,17 +30,21 @@ export default class Player extends Component {
 			transition = data.transition || 'fade',
 			easing = generateEasing(data.easing, data.customEasing),
 			tweenSpeed = speed / 1000;
+		let slideIndex = slides.length - 1;
 
-		/* Make the first Item appear above
-		 - by default last "absolute position" item will display above */
-		TweenMax.set(this.slideRefs[slideIndex], { zIndex: 9 });
+		TweenMax.set(this.slideRefs[0], { zIndex: 9 });
 
-		this.playingInterval = setInstantInterval(() => {
+		this.playingInterval = setInterval(() => {
 			if (slides.length === 1) return;
 
 			const currentIndex = slideIndex,
 				increasedIndex = currentIndex + 1,
 				nextIndex = increasedIndex >= slides.length ? 0 : increasedIndex;
+
+			/* Make the first Item appear above
+		 - by default last "absolute position" item will display above */
+			TweenMax.set(this.slideRefs[currentIndex], { zIndex: 8 });
+			TweenMax.set(this.slideRefs[nextIndex], { zIndex: 9 });
 
 			if (transition === 'slide') {
 				this.playTransitionEffect(
@@ -63,6 +66,7 @@ export default class Player extends Component {
 			}
 
 			slideIndex = nextIndex;
+			this.setState({ slideIndex: nextIndex });
 		}, interval);
 	}
 
@@ -77,6 +81,7 @@ export default class Player extends Component {
 				position: 'relative', overflow: 'hidden',
 				width: this.state.width, height: this.state.height }}>
 			{this.renderSlides()}
+			{this.renderNavIndicator()}
 		</div>;
 	}
 
@@ -99,6 +104,30 @@ export default class Player extends Component {
 					onHypeLayout={this.updateRatio}/>;
 			});
 		}
+	};
+
+	renderNavIndicator = () => {
+		return <div
+			style={{
+				position: 'absolute', zIndex: 11, bottom: 12, left: '50%',
+				transform: [{ translateX: '-50%' }] }}>
+			{this.props.configs.slides.map((slide, i) => {
+				const activeStyle = i === this.state.slideIndex ? {
+						backgroundColor: 'rgba(255, 255, 255, 0.8)',
+						width: 12, height: 12, borderRadius: 6,
+					} : {
+						backgroundColor: 'rgba(255, 255, 255, 0.5)',
+						width: 8, height: 8, borderRadius: 4,
+						marginBottom: 2,
+					};
+
+				return <div
+					style={{
+						display: 'inline-block',
+						marginLeft: 3, marginRight: 3,
+						...activeStyle, }}/>;
+			})}
+		</div>;
 	};
 
 	onResize = (e) => {
