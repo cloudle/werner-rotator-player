@@ -7,7 +7,13 @@
 		"speed": 2000,
 		"easing": "Elastic",
 		"slideFrom": "right",
-		"customEasing": ""
+		"customEasing": "",
+		"indicatorType": "maxamed",
+		"indicatorSnapping": "bottom",
+		"indicatorDirection": "row",
+		"indicatorSize": 15,
+		"indicatorColor": "#ffffff",
+		"indicatorPadding": 20
 	},
 	"slides": [
 		{

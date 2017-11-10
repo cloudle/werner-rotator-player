@@ -65,16 +65,20 @@ export default class Player extends Component {
 	};
 
 	renderIndicator = () => {
+		const { data = {} } = this.props.configs;
+
 		return <NavigationIndicator
 			slides={this.props.configs.slides}
 			activeIndex={this.state.slideIndex}
 			onNavigate={(position) => {
 				this.playTransition(this.state.slideIndex, position);
 			}}
-			snapping="bottom"
-			direction="row"
-			indicatorType="maxamed"
-			indicatorColor="#ffffff"/>;
+			snapping={data.indicatorSnapping}
+			direction={data.indicatorDirection}
+			indicatorType={data.indicatorType}
+			indicatorColor={data.indicatorColor}
+			indicatorSize={data.indicatorSize}
+			padding={data.indicatorPadding}/>;
 	};
 
 	onResize = (e) => {
