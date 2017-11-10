@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1077,11 +1077,76 @@ module.exports = g;
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(3);
+"use strict";
 
+
+exports.__esModule = true;
+exports.MaxamedIndicator = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _preact = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MaxamedIndicator = exports.MaxamedIndicator = function (_Component) {
+	_inherits(MaxamedIndicator, _Component);
+
+	function MaxamedIndicator() {
+		_classCallCheck(this, MaxamedIndicator);
+
+		return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+	}
+
+	MaxamedIndicator.prototype.render = function render() {
+		var color = this.props.color || '#ffffff',
+		    size = this.props.size || 15,
+		    spacing = this.props.spacing || 15,
+		    borderRadius = this.props.radius || size / 2,
+		    defaultThickness = this.props.defaultThickness || 1,
+		    activeThickness = this.props.activeThickness || 1,
+		    wrapperStyle = {
+			cursor: 'pointer',
+			width: size + spacing, height: size + spacing,
+			display: 'flex', alignItems: 'center', justifyContent: 'center'
+		},
+		    activeStyle = this.props.active ? {
+			borderWidth: activeThickness,
+			transform: 'scale3d(1.75, 1.75, 1)',
+			opacity: 1
+		} : {},
+		    innerStyle = _extends({
+			transition: 'all 0.3s',
+			boxSizing: 'border-box',
+			borderStyle: 'solid', borderWidth: defaultThickness + 5, borderColor: color,
+			width: size, height: size, borderRadius: borderRadius, opacity: 0.75
+		}, activeStyle);
+
+		return (0, _preact.h)(
+			'div',
+			{ style: wrapperStyle, onClick: this.props.onPress },
+			(0, _preact.h)('div', { style: innerStyle })
+		);
+	};
+
+	return MaxamedIndicator;
+}(_preact.Component);
+
+exports.default = MaxamedIndicator;
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(4);
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1092,7 +1157,7 @@ exports.playSlide = playSlide;
 
 var _preact = __webpack_require__(0);
 
-var _player = __webpack_require__(4);
+var _player = __webpack_require__(5);
 
 var _player2 = _interopRequireDefault(_player);
 
@@ -1109,7 +1174,7 @@ if (typeof window !== 'undefined') {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1118,17 +1183,19 @@ if (typeof window !== 'undefined') {
 exports.__esModule = true;
 exports.default = undefined;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _preact = __webpack_require__(0);
 
-var _slideItem = __webpack_require__(5);
+var _slideItem = __webpack_require__(6);
 
 var _slideItem2 = _interopRequireDefault(_slideItem);
 
-var _gsap = __webpack_require__(6);
+var _gsap = __webpack_require__(7);
 
 var _gsap2 = _interopRequireDefault(_gsap);
+
+var _indicatorContainer = __webpack_require__(8);
+
+var _indicatorContainer2 = _interopRequireDefault(_indicatorContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1178,30 +1245,23 @@ var Player = function (_Component) {
 			}
 		};
 
-		_this.renderNavIndicator = function () {
-			return (0, _preact.h)(
-				'div',
-				{
-					style: {
-						position: 'absolute', zIndex: 11, bottom: 12, left: '50%',
-						transform: 'translate(-50%, 0)' } },
-				_this.props.configs.slides.map(function (slide, i) {
-					var activeStyle = i === _this.state.slideIndex ? {
-						backgroundColor: 'rgba(255, 255, 255, 0.8)',
-						width: 12, height: 12, borderRadius: 6
-					} : {
-						backgroundColor: 'rgba(255, 255, 255, 0.5)',
-						width: 8, height: 8, borderRadius: 4,
-						marginBottom: 2
-					};
+		_this.renderIndicator = function () {
+			var _this$props$configs$d = _this.props.configs.data,
+			    data = _this$props$configs$d === undefined ? {} : _this$props$configs$d;
 
-					return (0, _preact.h)('div', {
-						style: _extends({
-							display: 'inline-block',
-							marginLeft: 3, marginRight: 3
-						}, activeStyle) });
-				})
-			);
+
+			return (0, _preact.h)(_indicatorContainer2.default, {
+				slides: _this.props.configs.slides,
+				activeIndex: _this.state.slideIndex,
+				onNavigate: function onNavigate(position) {
+					_this.playTransition(_this.state.slideIndex, position);
+				},
+				snapping: data.indicatorSnapping,
+				direction: data.indicatorDirection,
+				indicatorType: data.indicatorType,
+				indicatorColor: data.indicatorColor,
+				indicatorSize: data.indicatorSize,
+				padding: data.indicatorPadding });
 		};
 
 		_this.onResize = function (e) {
@@ -1283,7 +1343,7 @@ var Player = function (_Component) {
 		_this.slideRefs = {};
 		_this.state = {
 			widthRatio: 9999, /* make initial height very close to ZERO */
-			width: 0, height: 0,
+			width: 1, height: 1,
 			counter: 0,
 			slideIndex: 0
 		};
@@ -1293,51 +1353,16 @@ var Player = function (_Component) {
 	Player.prototype.componentDidMount = function componentDidMount() {
 		var _this2 = this;
 
-		this.onResize();
-		window.addEventListener('resize', this.onResize);
+		this.onResize();window.addEventListener('resize', this.onResize);
 
-		var _props$configs = this.props.configs,
-		    _props$configs$data = _props$configs.data,
-		    data = _props$configs$data === undefined ? {} : _props$configs$data,
-		    slides = _props$configs.slides,
-		    interval = data.interval || 6000,
-		    speed = data.speed || 1000,
-		    slideFrom = data.slideFrom || 'right',
-		    transition = data.transition || 'fade',
-		    easing = generateEasing(data.easing, data.customEasing),
-		    tweenSpeed = speed / 1000;
-
-		var slideIndex = slides.length - 1;
-
-		_gsap.TweenMax.set(this.slideRefs[0], { zIndex: 9 });
-
-		this.playingInterval = setInterval(function () {
-			if (slides.length === 1) return;
-
-			var currentIndex = slideIndex,
-			    increasedIndex = currentIndex + 1,
-			    nextIndex = increasedIndex >= slides.length ? 0 : increasedIndex;
-
-			/* Make the first Item appear above
-   - by default last "absolute position" item will display above */
-			_gsap.TweenMax.set(_this2.slideRefs[currentIndex], { zIndex: 8 });
-			_gsap.TweenMax.set(_this2.slideRefs[nextIndex], { zIndex: 9 });
-
-			if (transition === 'slide') {
-				_this2.playTransitionEffect(_this2.slideRefs[currentIndex], _this2.slideRefs[nextIndex], tweenSpeed, easing, slideFrom);
-			} else if (transition === 'cube') {
-				_this2.playCubeEffect(_this2.slideRefs[currentIndex], _this2.slideRefs[nextIndex], tweenSpeed, easing, slideFrom);
-			} else {
-				_this2.playFadeEffect(_this2.slideRefs[currentIndex], _this2.slideRefs[nextIndex], tweenSpeed, easing);
-			}
-
-			slideIndex = nextIndex;
-			_this2.setState({ slideIndex: nextIndex });
+		var interval = this.props.configs.data.interval || 6000;
+		this.playTimeout = setTimeout(function () {
+			return _this2.playTransition(0);
 		}, interval);
 	};
 
 	Player.prototype.componentWillUnmount = function componentWillUnmount() {
-		this.playingInterval && clearInterval(this.playingInterval);
+		this.playTimeout && clearTimeout(this.playTimeout);
 		window.removeEventListener('resize', this.onResize);
 	};
 
@@ -1349,8 +1374,62 @@ var Player = function (_Component) {
 					position: 'relative', overflow: 'hidden',
 					width: this.state.width, height: this.state.height } },
 			this.renderSlides(),
-			this.renderNavIndicator()
+			this.renderIndicator()
 		);
+	};
+
+	Player.prototype.playTransition = function playTransition(currentIndex) {
+		var _this3 = this;
+
+		var targetIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
+
+		this.playTimeout && clearTimeout(this.playTimeout);
+
+		var _props$configs = this.props.configs,
+		    _props$configs$data = _props$configs.data,
+		    data = _props$configs$data === undefined ? {} : _props$configs$data,
+		    slides = _props$configs.slides,
+		    interval = data.interval || 6000,
+		    speed = data.speed || 1000,
+		    slideFrom = data.slideFrom || 'right',
+		    transition = data.transition || 'fade',
+		    easing = generateEasing(data.easing, data.customEasing),
+		    tweenSpeed = speed / 1000,
+		    nextIndex = targetIndex >= 0 && targetIndex < slides.length ? targetIndex : getNextTransitionIndex(slides, currentIndex);
+
+
+		if (slides.length <= 1) return; /* if we have only 1 slide, nothing to slide!!! */
+
+		try {
+			/* Make the first Item appear above
+   	- by default last "absolute position" item will display above */
+			for (var i = 0; i < slides.length; i += 1) {
+				_gsap.TweenMax.set(this.slideRefs[i], { zIndex: 0 });
+			}
+
+			_gsap.TweenMax.set(this.slideRefs[currentIndex], { zIndex: 8 });
+			_gsap.TweenMax.set(this.slideRefs[nextIndex], { zIndex: 9 });
+
+			if (transition === 'slide') {
+				this.playTransitionEffect(this.slideRefs[currentIndex], this.slideRefs[nextIndex], tweenSpeed, easing, slideFrom);
+			} else if (transition === 'cube') {
+				this.playCubeEffect(this.slideRefs[currentIndex], this.slideRefs[nextIndex], tweenSpeed, easing, slideFrom);
+			} else {
+				this.playFadeEffect(this.slideRefs[currentIndex], this.slideRefs[nextIndex], tweenSpeed, easing);
+			}
+
+			this.playTimeout = setTimeout(function () {
+				return _this3.playTransition(nextIndex);
+			}, interval);
+		} catch (e) {
+			console.log('Cannot play slide ' + currentIndex + '|>' + nextIndex + ', recovered from crash:', e);
+			this.playTimeout = setTimeout(function () {
+				return _this3.playTransition(nextIndex);
+			}, interval);
+		}
+
+		/* Finally, we're always focus on the next slide! no-matter the current one played or not.. */
+		this.setState({ slideIndex: nextIndex });
 	};
 
 	return Player;
@@ -1358,6 +1437,11 @@ var Player = function (_Component) {
 
 exports.default = Player;
 
+
+function getNextTransitionIndex(slides, currentIndex) {
+	var increasedIndex = currentIndex + 1;
+	return increasedIndex >= slides.length ? 0 : increasedIndex;
+}
 
 function setInstantInterval(functionRef, interval) {
 	functionRef();
@@ -1373,7 +1457,7 @@ function generateEasing(easing, customEasing) {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1508,7 +1592,7 @@ var styles = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9909,6 +9993,232 @@ if (_gsScope._gsDefine) {
 	_tickerActive = false; //ensures that the first official animation forces a ticker.tick() to update the time when it is instantiated
 })(typeof module !== "undefined" && module.exports && typeof global !== "undefined" ? global : undefined || window, "TweenMax");
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.default = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _preact = __webpack_require__(0);
+
+var _maxamedIndicator = __webpack_require__(2);
+
+var _maxamedIndicator2 = _interopRequireDefault(_maxamedIndicator);
+
+var _ubaxIndicator = __webpack_require__(9);
+
+var _ubaxIndicator2 = _interopRequireDefault(_ubaxIndicator);
+
+var _magoolIndicator = __webpack_require__(10);
+
+var _magoolIndicator2 = _interopRequireDefault(_magoolIndicator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IndicatorContainer = function (_Component) {
+	_inherits(IndicatorContainer, _Component);
+
+	function IndicatorContainer() {
+		_classCallCheck(this, IndicatorContainer);
+
+		return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+	}
+
+	IndicatorContainer.prototype.render = function render() {
+		var _this2 = this;
+
+		var containerStyle = _extends({
+			display: 'flex', alignItems: 'center',
+			position: 'absolute', zIndex: 11
+		}, getSnappingStyles(this.props.snapping, this.props.direction, this.props.padding)),
+		    Indicator = indicatorTypes[this.props.indicatorType] || _maxamedIndicator2.default;
+
+		return (0, _preact.h)(
+			'div',
+			{ style: containerStyle },
+			this.props.slides.map(function (item, i) {
+				var isActive = _this2.props.activeIndex === i;
+
+				return (0, _preact.h)(Indicator, {
+					key: i,
+					onPress: function onPress() {
+						return _this2.props.onNavigate && _this2.props.onNavigate(i);
+					},
+					active: isActive,
+					direction: _this2.props.direction,
+					color: _this2.props.indicatorColor,
+					size: _this2.props.indicatorSize,
+					spacing: _this2.props.indicatorSpacing });
+			})
+		);
+	};
+
+	return IndicatorContainer;
+}(_preact.Component);
+
+exports.default = IndicatorContainer;
+
+
+function getSnappingStyles(snapping) {
+	var direction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'row';
+	var padding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 20;
+
+	switch (snapping) {
+		case 'left':
+			return { top: '50%', left: padding, flexDirection: direction, transform: 'translate(0, -50%)' };
+		case 'right':
+			return { top: '50%', right: padding, flexDirection: direction, transform: 'translate(0, -50%)' };
+		case 'top-left':
+			return { top: padding, left: padding, flexDirection: direction };
+		case 'top-right':
+			return { top: padding, right: padding, flexDirection: direction };
+		case 'bottom-left':
+			return { bottom: padding, left: padding, flexDirection: direction };
+		case 'bottom-right':
+			return { bottom: padding, right: padding, flexDirection: direction };
+		case 'top':
+			return { top: padding, left: '50%', flexDirection: direction, transform: 'translate(-50%, 0)' };
+		default:
+			return { bottom: padding, left: '50%', flexDirection: direction, transform: 'translate(-50%, 0)' };
+	}
+}
+
+var indicatorTypes = {
+	maxamed: _maxamedIndicator2.default,
+	ubax: _ubaxIndicator2.default,
+	magool: _magoolIndicator2.default
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.UbaxIndicator = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _preact = __webpack_require__(0);
+
+var _maxamedIndicator = __webpack_require__(2);
+
+var _maxamedIndicator2 = _interopRequireDefault(_maxamedIndicator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UbaxIndicator = exports.UbaxIndicator = function (_Component) {
+	_inherits(UbaxIndicator, _Component);
+
+	function UbaxIndicator() {
+		_classCallCheck(this, UbaxIndicator);
+
+		return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+	}
+
+	UbaxIndicator.prototype.render = function render() {
+		return (0, _preact.h)(_maxamedIndicator2.default, _extends({}, this.props, {
+			spacing: this.props.spacing || 12,
+			defaultThickness: 2,
+			activeThickness: 2,
+			radius: 1 }));
+	};
+
+	return UbaxIndicator;
+}(_preact.Component);
+
+exports.default = UbaxIndicator;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+exports.MagoolIndicator = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _preact = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MagoolIndicator = exports.MagoolIndicator = function (_Component) {
+	_inherits(MagoolIndicator, _Component);
+
+	function MagoolIndicator() {
+		_classCallCheck(this, MagoolIndicator);
+
+		return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+	}
+
+	MagoolIndicator.prototype.render = function render() {
+		var color = this.props.color || '#ffffff',
+		    size = this.props.size || 15,
+		    spacing = this.props.spacing || 15,
+		    wrapperStyle = {
+			cursor: 'pointer',
+			width: size + spacing, height: size + spacing
+		},
+		    activeStyle = this.props.active ? {
+			transform: this.props.direction.indexOf('row') >= 0 ? 'scale3d(1, 2, 1)' : 'scale3d(2, 1, 1)',
+			opacity: 1
+		} : {},
+		    innerStyle = _extends({
+			transition: 'transform 0.3s',
+			opacity: 0.75,
+			backgroundColor: color
+		}, getSizingStyle(this.props.direction, size), activeStyle);
+
+		return (0, _preact.h)(
+			'div',
+			{ style: wrapperStyle, onClick: this.props.onPress },
+			(0, _preact.h)('div', { style: innerStyle })
+		);
+	};
+
+	return MagoolIndicator;
+}(_preact.Component);
+
+function getSizingStyle() {
+	var direction = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'row';
+	var size = arguments[1];
+
+	if (direction.indexOf('row') >= 0) {
+		return { height: size, width: 2 };
+	} else {
+		return { height: 2, width: size };
+	}
+}
+
+exports.default = MagoolIndicator;
 
 /***/ })
 /******/ ]);
