@@ -22,58 +22,14 @@ export default class Player extends Component {
 	}
 
 	componentDidMount() {
-		this.onResize();
-		window.addEventListener('resize', this.onResize);
+		this.onResize(); window.addEventListener('resize', this.onResize);
 
-		const { data = {}, slides } = this.props.configs,
-			interval = data.interval || 6000,
-			speed = data.speed || 1000,
-			slideFrom = data.slideFrom || 'right',
-			transition = data.transition || 'fade',
-			easing = generateEasing(data.easing, data.customEasing),
-			tweenSpeed = speed / 1000;
-		let slideIndex = 0;
-
-		TweenMax.set(this.slideRefs[slideIndex], { zIndex: 9 });
-
-		this.playingInterval = setInterval(() => {
-			if (slides.length === 1) return;
-
-			const currentIndex = slideIndex,
-				increasedIndex = currentIndex + 1,
-				nextIndex = increasedIndex >= slides.length ? 0 : increasedIndex;
-
-			/* Make the first Item appear above
-		 - by default last "absolute position" item will display above */
-			TweenMax.set(this.slideRefs[currentIndex], { zIndex: 8 });
-			TweenMax.set(this.slideRefs[nextIndex], { zIndex: 9 });
-
-			if (transition === 'slide') {
-				this.playTransitionEffect(
-					this.slideRefs[currentIndex],
-					this.slideRefs[nextIndex],
-					tweenSpeed, easing,
-					slideFrom);
-			} else if (transition === 'cube') {
-				this.playCubeEffect(
-					this.slideRefs[currentIndex],
-					this.slideRefs[nextIndex],
-					tweenSpeed, easing,
-					slideFrom);
-			} else {
-				this.playFadeEffect(
-					this.slideRefs[currentIndex],
-					this.slideRefs[nextIndex],
-					tweenSpeed, easing);
-			}
-
-			slideIndex = nextIndex;
-			this.setState({ slideIndex: nextIndex });
-		}, interval);
+		const interval = this.props.configs.data.interval || 6000;
+		this.playTimeout = setTimeout(() => this.playTransition(0), interval);
 	}
 
 	componentWillUnmount() {
-		this.playingInterval && clearInterval(this.playingInterval);
+		this.playTimeout && clearTimeout(this.playTimeout);
 		window.removeEventListener('resize', this.onResize);
 	}
 
@@ -113,6 +69,10 @@ export default class Player extends Component {
 		}
 	};
 
+	renderIndicator = () => {
+
+	};
+
 	onResize = (e) => {
 		const { clientWidth, clientHeight } = this.props.container;
 
@@ -129,8 +89,58 @@ export default class Player extends Component {
 		this.setState({ widthRatio, width: clientWidth, height: clientWidth / widthRatio });
 	};
 
-	playTransition() {
+	playTransition(currentIndex, targetIndex = -1) {
+		this.playTimeout && clearTimeout(this.playTimeout);
 
+		const { data = {}, slides } = this.props.configs,
+			interval = data.interval || 6000,
+			speed = data.speed || 1000,
+			slideFrom = data.slideFrom || 'right',
+			transition = data.transition || 'fade',
+			easing = generateEasing(data.easing, data.customEasing),
+			tweenSpeed = speed / 1000,
+			nextIndex = (targetIndex >= 0 && targetIndex < slides.length) ? targetIndex
+				: getNextTransitionIndex(slides, currentIndex);
+
+		if (slides.length <= 1) return; /* if we have only 1 slide, nothing to slide!!! */
+
+		try {
+			/* Make the first Item appear above
+	 		- by default last "absolute position" item will display above */
+			for (let i = 0; i < slides.length; i += 1) {
+				TweenMax.set(this.slideRefs[i], { zIndex: 0 });
+			}
+
+			TweenMax.set(this.slideRefs[currentIndex], { zIndex: 8 });
+			TweenMax.set(this.slideRefs[nextIndex], { zIndex: 9 });
+
+			if (transition === 'slide') {
+				this.playTransitionEffect(
+					this.slideRefs[currentIndex],
+					this.slideRefs[nextIndex],
+					tweenSpeed, easing,
+					slideFrom);
+			} else if (transition === 'cube') {
+				this.playCubeEffect(
+					this.slideRefs[currentIndex],
+					this.slideRefs[nextIndex],
+					tweenSpeed, easing,
+					slideFrom);
+			} else {
+				this.playFadeEffect(
+					this.slideRefs[currentIndex],
+					this.slideRefs[nextIndex],
+					tweenSpeed, easing);
+			}
+
+			this.playTimeout = setTimeout(() => this.playTransition(nextIndex), interval);
+		} catch (e) {
+			console.log(`Cannot play slide ${currentIndex}|>${nextIndex}, recovered from crash:`, e);
+			this.playTimeout = setTimeout(() => this.playTransition(nextIndex), interval);
+		}
+
+		/* Finally, we're always focus on the next slide! no-matter the current one played or not.. */
+		this.setState({ slideIndex: nextIndex });
 	}
 
 	playFadeEffect = (currentElement, nextElement, speed, ease) => {
@@ -237,6 +247,11 @@ export default class Player extends Component {
 				{ scaleX: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut, });
 		}
 	};
+}
+
+function getNextTransitionIndex(slides, currentIndex) {
+	const increasedIndex = currentIndex + 1;
+	return increasedIndex >= slides.length ? 0 : increasedIndex;
 }
 
 function setInstantInterval(functionRef, interval) {
