@@ -2,6 +2,8 @@ import { h, Component } from 'preact';
 import SlideItem from './slideItem';
 import gsap, { TweenMax, Power3 } from 'gsap';
 
+import NavigationIndicator from './indicatorContainer';
+
 const validEasings = [
 	'Power0', 'Power1', 'Power2', 'Power3', 'Power4',
 	'Back', 'Elastic', 'Bounce', 'Rough', 'SlowMo', 'Stepped', 'Circ', 'Expo', 'Sine'];
@@ -13,7 +15,7 @@ export default class Player extends Component {
 		this.slideRefs = {};
 		this.state = {
 			widthRatio: 9999, /* make initial height very close to ZERO */
-			width: 0, height: 0,
+			width: 1, height: 1,
 			counter: 0,
 			slideIndex: 0,
 		};
@@ -30,9 +32,9 @@ export default class Player extends Component {
 			transition = data.transition || 'fade',
 			easing = generateEasing(data.easing, data.customEasing),
 			tweenSpeed = speed / 1000;
-		let slideIndex = slides.length - 1;
+		let slideIndex = 0;
 
-		TweenMax.set(this.slideRefs[0], { zIndex: 9 });
+		TweenMax.set(this.slideRefs[slideIndex], { zIndex: 9 });
 
 		this.playingInterval = setInterval(() => {
 			if (slides.length === 1) return;
@@ -81,7 +83,12 @@ export default class Player extends Component {
 				position: 'relative', overflow: 'hidden',
 				width: this.state.width, height: this.state.height }}>
 			{this.renderSlides()}
-			{this.renderNavIndicator()}
+			<NavigationIndicator
+				slides={this.props.configs.slides}
+				activeIndex={this.state.slideIndex}
+				snapping="bottom"
+				direction="row"
+				indicatorColor="#ffffff"/>
 		</div>;
 	}
 
@@ -106,30 +113,6 @@ export default class Player extends Component {
 		}
 	};
 
-	renderNavIndicator = () => {
-		return <div
-			style={{
-				position: 'absolute', zIndex: 11, bottom: 12, left: '50%',
-				transform: 'translate(-50%, 0)' }}>
-			{this.props.configs.slides.map((slide, i) => {
-				const activeStyle = i === this.state.slideIndex ? {
-						backgroundColor: 'rgba(255, 255, 255, 0.8)',
-						width: 12, height: 12, borderRadius: 6,
-					} : {
-						backgroundColor: 'rgba(255, 255, 255, 0.5)',
-						width: 8, height: 8, borderRadius: 4,
-						marginBottom: 2,
-					};
-
-				return <div
-					style={{
-						display: 'inline-block',
-						marginLeft: 3, marginRight: 3,
-						...activeStyle, }}/>;
-			})}
-		</div>;
-	};
-
 	onResize = (e) => {
 		const { clientWidth, clientHeight } = this.props.container;
 
@@ -146,6 +129,9 @@ export default class Player extends Component {
 		this.setState({ widthRatio, width: clientWidth, height: clientWidth / widthRatio });
 	};
 
+	playTransition() {
+
+	}
 
 	playFadeEffect = (currentElement, nextElement, speed, ease) => {
 		TweenMax.fromTo(
@@ -250,7 +236,7 @@ export default class Player extends Component {
 				{ scaleX: 1, opacity: 1, transformOrigin: 'center left', },
 				{ scaleX: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut, });
 		}
-	}
+	};
 }
 
 function setInstantInterval(functionRef, interval) {
