@@ -8,15 +8,19 @@ export class MaxamedIndicator extends Component {
 			borderRadius = this.props.radius || size / 2,
 			defaultThickness = this.props.defaultThickness || 1,
 			activeThickness = this.props.activeThickness || 1,
-			wrapperStyle = { width: size + spacing, height: size + spacing },
+			wrapperStyle = {
+				width: size + spacing, height: size + spacing,
+				display: 'flex', alignItems: 'center', justifyContent: 'center',
+			},
 			activeStyle = this.props.active ? {
-				boxShadow: `inset 0 0 0 ${activeThickness}px ${color}`,
+				borderWidth: activeThickness,
 				transform: 'scale3d(1.75, 1.75, 1)',
 				opacity: 1,
 			} : {},
 			innerStyle = {
-				transition: 'transform 0.3s, box-shadow 0.3s',
-				boxShadow: `inset 0 0 0 ${defaultThickness}px ${color}`,
+				transition: 'all 0.3s', cursor: 'pointer',
+				boxSizing: 'border-box',
+				borderStyle: 'solid', borderWidth: defaultThickness + 5, borderColor: color,
 				width: size, height: size, borderRadius, opacity: 0.75,
 				...activeStyle,
 			};

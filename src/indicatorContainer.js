@@ -7,16 +7,17 @@ import MagoolIndicator from './magoolIndicator';
 export default class IndicatorContainer extends Component {
 	render() {
 		const containerStyle = {
-			display: 'flex', alignItems: 'center',
-			position: 'absolute', zIndex: 11,
-			...getSnappingStyles(this.props.snapping, this.props.direction, this.props.padding),
-		};
+				display: 'flex', alignItems: 'center',
+				position: 'absolute', zIndex: 11,
+				...getSnappingStyles(this.props.snapping, this.props.direction, this.props.padding),
+			},
+			Indicator = indicatorTypes[this.props.indicatorType] || MaxamedIndicator;
 
 		return <div style={containerStyle}>
 			{this.props.slides.map((item, i) => {
 				const isActive = this.props.activeIndex === i;
 
-				return <MagoolIndicator
+				return <Indicator
 					key={i}
 					active={isActive}
 					direction={this.props.direction}
@@ -48,3 +49,9 @@ function getSnappingStyles(snapping, direction = 'row', padding = 20) {
 		return { bottom: padding, left: '50%', flexDirection: direction, transform: 'translate(-50%, 0)', };
 	}
 }
+
+const indicatorTypes = {
+	maxamed: MaxamedIndicator,
+	ubax: UbaxIndicator,
+	magool: MagoolIndicator,
+};

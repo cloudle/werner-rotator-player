@@ -39,12 +39,7 @@ export default class Player extends Component {
 				position: 'relative', overflow: 'hidden',
 				width: this.state.width, height: this.state.height }}>
 			{this.renderSlides()}
-			<NavigationIndicator
-				slides={this.props.configs.slides}
-				activeIndex={this.state.slideIndex}
-				snapping="bottom"
-				direction="row"
-				indicatorColor="#ffffff"/>
+			{this.renderIndicator()}
 		</div>;
 	}
 
@@ -70,7 +65,13 @@ export default class Player extends Component {
 	};
 
 	renderIndicator = () => {
-
+		return <NavigationIndicator
+			slides={this.props.configs.slides}
+			activeIndex={this.state.slideIndex}
+			snapping="bottom"
+			direction="row"
+			indicatorType="maxamed"
+			indicatorColor="#ffffff"/>;
 	};
 
 	onResize = (e) => {

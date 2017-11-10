@@ -6,7 +6,7 @@ export class UbaxIndicator extends Component {
 		return <MaxamedIndicator
 			{...this.props}
 			spacing={this.props.spacing || 12}
-			defaultThickness={8}
+			defaultThickness={2}
 			activeThickness={2}
 			radius={1} />;
 	}
