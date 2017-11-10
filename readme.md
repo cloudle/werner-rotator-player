@@ -29,3 +29,6 @@ which could be use like this in our page:
 ```
 WernerPlayer.playSide(element, configs);
 ```
+
+### References
+https://tympanus.net/Development/NavigationIndicators/
