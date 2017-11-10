@@ -19,6 +19,7 @@ export default class IndicatorContainer extends Component {
 
 				return <Indicator
 					key={i}
+					onPress={() => this.props.onNavigate && this.props.onNavigate(i)}
 					active={isActive}
 					direction={this.props.direction}
 					color={this.props.indicatorColor}

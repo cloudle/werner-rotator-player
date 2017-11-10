@@ -9,6 +9,7 @@ export class MaxamedIndicator extends Component {
 			defaultThickness = this.props.defaultThickness || 1,
 			activeThickness = this.props.activeThickness || 1,
 			wrapperStyle = {
+				cursor: 'pointer',
 				width: size + spacing, height: size + spacing,
 				display: 'flex', alignItems: 'center', justifyContent: 'center',
 			},
@@ -18,14 +19,14 @@ export class MaxamedIndicator extends Component {
 				opacity: 1,
 			} : {},
 			innerStyle = {
-				transition: 'all 0.3s', cursor: 'pointer',
+				transition: 'all 0.3s',
 				boxSizing: 'border-box',
 				borderStyle: 'solid', borderWidth: defaultThickness + 5, borderColor: color,
 				width: size, height: size, borderRadius, opacity: 0.75,
 				...activeStyle,
 			};
 
-		return <div style={wrapperStyle}>
+		return <div style={wrapperStyle} onClick={this.props.onPress}>
 			<div style={innerStyle}/>
 		</div>;
 	}

@@ -5,7 +5,10 @@ export class MagoolIndicator extends Component {
 		const color = this.props.color || '#ffffff',
 			size = this.props.size || 15,
 			spacing = this.props.spacing || 15,
-			wrapperStyle = { width: size + spacing, height: size + spacing },
+			wrapperStyle = {
+				cursor: 'pointer',
+				width: size + spacing, height: size + spacing,
+			},
 			activeStyle = this.props.active ? {
 				transform: this.props.direction.indexOf('row') >= 0
 					? 'scale3d(1, 2, 1)' : 'scale3d(2, 1, 1)',
@@ -19,7 +22,7 @@ export class MagoolIndicator extends Component {
 				...activeStyle,
 			};
 
-		return <div style={wrapperStyle}>
+		return <div style={wrapperStyle} onClick={this.props.onPress}>
 			<div style={innerStyle}/>
 		</div>;
 	}
