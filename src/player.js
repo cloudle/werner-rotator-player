@@ -155,104 +155,106 @@ export default class Player extends Component {
 		TweenMax.fromTo(
 			nextElement, speed,
 			{ opacity: 0, zIndex: 9, },
-			{ opacity: 1, ease: ease.easeIn, });
+			{ opacity: 1, ease: ease.easeIn || ease.ease, });
 
 		TweenMax.fromTo(
 			currentElement, speed,
 			{ opacity: 1, zIndex: 8, },
-			{ opacity: 0, ease: ease.easeOut, delay: speed / 2, });
+			{ opacity: 0, ease: ease.easeOut || ease.ease, delay: speed / 2, });
 	};
 
 	playTransitionEffect = (currentElement, nextElement, speed, ease, slideFrom) => {
 		const width = this.state.width,
-			height = this.state.height;
+			height = this.state.height,
+			easing = ease.easeInOut || ease.ease;
 
 		if (slideFrom === 'left') {
 			TweenMax.fromTo(
 				nextElement, speed,
 				{ x: -width },
-				{ x: 0, ease: ease.easeInOut, });
+				{ x: 0, ease: easing });
 
 			TweenMax.fromTo(
 				currentElement, speed,
 				{ x: 0, },
-				{ x: width, ease: ease.easeInOut, });
+				{ x: width, ease: easing });
 		} else if (slideFrom === 'top') {
 			TweenMax.fromTo(
 				nextElement, speed,
 				{ y: -height },
-				{ y: 0, ease: ease.easeInOut, });
+				{ y: 0, ease: easing });
 
 			TweenMax.fromTo(
 				currentElement, speed,
 				{ y: 0, },
-				{ y: height, ease: ease.easeInOut, });
+				{ y: height, ease: easing });
 		} else if (slideFrom === 'bottom') {
 			TweenMax.fromTo(
 				nextElement, speed,
 				{ y: height },
-				{ y: 0, ease: ease.easeInOut, });
+				{ y: 0, ease: easing });
 
 			TweenMax.fromTo(
 				currentElement, speed,
 				{ y: 0, },
-				{ y: -height, ease: ease.easeInOut, });
+				{ y: -height, ease: easing });
 		} else {
 			TweenMax.fromTo(
 				nextElement, speed,
 				{ x: width },
-				{ x: 0, ease: ease.easeInOut, });
+				{ x: 0, ease: easing });
 
 			TweenMax.fromTo(
 				currentElement, speed,
 				{ x: 0, },
-				{ x: -width, ease: ease.easeInOut, });
+				{ x: -width, ease: easing });
 		}
 	};
 
 	playCubeEffect = (currentElement, nextElement, speed, ease, slideFrom) => {
-		const width = this.state.width;
+		const width = this.state.width,
+			easing = ease.easeInOut || ease.ease;
 
 		if (slideFrom === 'left') {
 			TweenMax.fromTo(
 				nextElement, speed,
 				{ scaleX: 0.000001, opacity: 0.5, transformOrigin: 'center left' },
-				{ scaleX: 1, opacity: 1, ease: ease.easeInOut, });
+				{ scaleX: 1, opacity: 1, ease: easing, });
 
 			TweenMax.fromTo(
 				currentElement, speed,
 				{ scaleX: 1, opacity: 1, transformOrigin: 'center right', },
-				{ scaleX: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut, });
+				{ scaleX: 0.000001, opacity: 0.5, z: width, ease: easing, });
 		} else if (slideFrom === 'top') {
 			TweenMax.fromTo(
 				nextElement, speed,
 				{ scaleY: 0.000001, opacity: 0.5, transformOrigin: 'top center' },
-				{ scaleY: 1, opacity: 1, ease: ease.easeInOut, });
+				{ scaleY: 1, opacity: 1, ease: easing, });
 
 			TweenMax.fromTo(
 				currentElement, speed,
 				{ scaleY: 1, opacity: 1, transformOrigin: 'bottom center', },
-				{ scaleY: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut, });
+				{ scaleY: 0.000001, opacity: 0.5, z: width, ease: easing, });
 		} else if (slideFrom === 'bottom') {
 			TweenMax.fromTo(
 				nextElement, speed,
 				{ scaleY: 0.000001, opacity: 0.5, transformOrigin: 'bottom center' },
-				{ scaleY: 1, opacity: 1, ease: ease.easeInOut, });
+				{ scaleY: 1, opacity: 1, ease: easing, });
 
 			TweenMax.fromTo(
 				currentElement, speed,
 				{ scaleY: 1, opacity: 1, transformOrigin: 'top center', },
-				{ scaleY: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut, });
+				{ scaleY: 0.000001, opacity: 0.5, z: width, ease: easing, });
 		} else { /* right */
 			TweenMax.fromTo(
 				nextElement, speed,
 				{ scaleX: 0.000001, opacity: 0.5, transformOrigin: 'center right' },
-				{ scaleX: 1, opacity: 1, ease: ease.easeInOut, });
+				{ scaleX: 1, opacity: 1, ease: easing, });
 
 			TweenMax.fromTo(
 				currentElement, speed,
 				{ scaleX: 1, opacity: 1, transformOrigin: 'center left', },
-				{ scaleX: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut, });
+				{ scaleX: 0.000001, opacity: 0.5, z: width, ease: easing, });
 		}
 	};
 }
@@ -269,7 +271,13 @@ function setInstantInterval(functionRef, interval) {
 
 function generateEasing(easing, customEasing) {
 	if (validEasings.indexOf(easing) >= 0) {
-		return gsap[easing];
+		if (easing === 'Rough') {
+			return gsap.RoughEase;
+		} else if (easing === 'Stepped') {
+			return gsap.SteppedEase;
+		} else {
+			return gsap[easing];
+		}
 	} else {
 		return Power3;
 	}
