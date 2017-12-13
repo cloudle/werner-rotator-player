@@ -54,7 +54,7 @@ export default class SlideItem extends Component {
 			const currentLayoutName = hypeInstance.currentLayoutName(),
 				currentSceneName = hypeInstance.currentSceneName(),
 				layouts = hypeInstance.layoutsForSceneNamed(currentSceneName),
-				currentScene = layouts.find(layout => layout.name === currentLayoutName),
+				currentScene = find(layouts, layout => layout.name === currentLayoutName),
 				widthRatio = clientWidth / currentScene.width;
 
 			if (this.props.onHypeLayout) this.props.onHypeLayout({
@@ -91,3 +91,11 @@ const styles = {
 
 	},
 };
+
+function find(array, predicate) {
+	for (const item of array) {
+		if (predicate(item)) return item;
+	}
+
+	return undefined;
+}
