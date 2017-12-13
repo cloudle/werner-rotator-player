@@ -1519,7 +1519,7 @@ var SlideItem = function (_Component) {
 				var currentLayoutName = hypeInstance.currentLayoutName(),
 				    currentSceneName = hypeInstance.currentSceneName(),
 				    layouts = hypeInstance.layoutsForSceneNamed(currentSceneName),
-				    currentScene = layouts.find(function (layout) {
+				    currentScene = find(layouts, function (layout) {
 					return layout.name === currentLayoutName;
 				}),
 				    widthRatio = clientWidth / currentScene.width;
@@ -1589,6 +1589,27 @@ function extractHypeNameFromUrl(url) {
 var styles = {
 	container: {}
 };
+
+function find(array, predicate) {
+	for (var _iterator = array, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+		var _ref;
+
+		if (_isArray) {
+			if (_i >= _iterator.length) break;
+			_ref = _iterator[_i++];
+		} else {
+			_i = _iterator.next();
+			if (_i.done) break;
+			_ref = _i.value;
+		}
+
+		var item = _ref;
+
+		if (predicate(item)) return item;
+	}
+
+	return undefined;
+}
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
