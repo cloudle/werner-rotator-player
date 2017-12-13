@@ -1289,54 +1289,56 @@ var Player = function (_Component) {
 		};
 
 		_this.playFadeEffect = function (currentElement, nextElement, speed, ease) {
-			_gsap.TweenMax.fromTo(nextElement, speed, { opacity: 0, zIndex: 9 }, { opacity: 1, ease: ease.easeIn });
+			_gsap.TweenMax.fromTo(nextElement, speed, { opacity: 0, zIndex: 9 }, { opacity: 1, ease: ease.easeIn || ease.ease });
 
-			_gsap.TweenMax.fromTo(currentElement, speed, { opacity: 1, zIndex: 8 }, { opacity: 0, ease: ease.easeOut, delay: speed / 2 });
+			_gsap.TweenMax.fromTo(currentElement, speed, { opacity: 1, zIndex: 8 }, { opacity: 0, ease: ease.easeOut || ease.ease, delay: speed / 2 });
 		};
 
 		_this.playTransitionEffect = function (currentElement, nextElement, speed, ease, slideFrom) {
 			var width = _this.state.width,
-			    height = _this.state.height;
+			    height = _this.state.height,
+			    easing = ease.easeInOut || ease.ease;
 
 			if (slideFrom === 'left') {
-				_gsap.TweenMax.fromTo(nextElement, speed, { x: -width }, { x: 0, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(nextElement, speed, { x: -width }, { x: 0, ease: easing });
 
-				_gsap.TweenMax.fromTo(currentElement, speed, { x: 0 }, { x: width, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(currentElement, speed, { x: 0 }, { x: width, ease: easing });
 			} else if (slideFrom === 'top') {
-				_gsap.TweenMax.fromTo(nextElement, speed, { y: -height }, { y: 0, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(nextElement, speed, { y: -height }, { y: 0, ease: easing });
 
-				_gsap.TweenMax.fromTo(currentElement, speed, { y: 0 }, { y: height, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(currentElement, speed, { y: 0 }, { y: height, ease: easing });
 			} else if (slideFrom === 'bottom') {
-				_gsap.TweenMax.fromTo(nextElement, speed, { y: height }, { y: 0, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(nextElement, speed, { y: height }, { y: 0, ease: easing });
 
-				_gsap.TweenMax.fromTo(currentElement, speed, { y: 0 }, { y: -height, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(currentElement, speed, { y: 0 }, { y: -height, ease: easing });
 			} else {
-				_gsap.TweenMax.fromTo(nextElement, speed, { x: width }, { x: 0, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(nextElement, speed, { x: width }, { x: 0, ease: easing });
 
-				_gsap.TweenMax.fromTo(currentElement, speed, { x: 0 }, { x: -width, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(currentElement, speed, { x: 0 }, { x: -width, ease: easing });
 			}
 		};
 
 		_this.playCubeEffect = function (currentElement, nextElement, speed, ease, slideFrom) {
-			var width = _this.state.width;
+			var width = _this.state.width,
+			    easing = ease.easeInOut || ease.ease;
 
 			if (slideFrom === 'left') {
-				_gsap.TweenMax.fromTo(nextElement, speed, { scaleX: 0.000001, opacity: 0.5, transformOrigin: 'center left' }, { scaleX: 1, opacity: 1, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(nextElement, speed, { scaleX: 0.000001, opacity: 0.5, transformOrigin: 'center left' }, { scaleX: 1, opacity: 1, ease: easing });
 
-				_gsap.TweenMax.fromTo(currentElement, speed, { scaleX: 1, opacity: 1, transformOrigin: 'center right' }, { scaleX: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(currentElement, speed, { scaleX: 1, opacity: 1, transformOrigin: 'center right' }, { scaleX: 0.000001, opacity: 0.5, z: width, ease: easing });
 			} else if (slideFrom === 'top') {
-				_gsap.TweenMax.fromTo(nextElement, speed, { scaleY: 0.000001, opacity: 0.5, transformOrigin: 'top center' }, { scaleY: 1, opacity: 1, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(nextElement, speed, { scaleY: 0.000001, opacity: 0.5, transformOrigin: 'top center' }, { scaleY: 1, opacity: 1, ease: easing });
 
-				_gsap.TweenMax.fromTo(currentElement, speed, { scaleY: 1, opacity: 1, transformOrigin: 'bottom center' }, { scaleY: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(currentElement, speed, { scaleY: 1, opacity: 1, transformOrigin: 'bottom center' }, { scaleY: 0.000001, opacity: 0.5, z: width, ease: easing });
 			} else if (slideFrom === 'bottom') {
-				_gsap.TweenMax.fromTo(nextElement, speed, { scaleY: 0.000001, opacity: 0.5, transformOrigin: 'bottom center' }, { scaleY: 1, opacity: 1, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(nextElement, speed, { scaleY: 0.000001, opacity: 0.5, transformOrigin: 'bottom center' }, { scaleY: 1, opacity: 1, ease: easing });
 
-				_gsap.TweenMax.fromTo(currentElement, speed, { scaleY: 1, opacity: 1, transformOrigin: 'top center' }, { scaleY: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(currentElement, speed, { scaleY: 1, opacity: 1, transformOrigin: 'top center' }, { scaleY: 0.000001, opacity: 0.5, z: width, ease: easing });
 			} else {
 				/* right */
-				_gsap.TweenMax.fromTo(nextElement, speed, { scaleX: 0.000001, opacity: 0.5, transformOrigin: 'center right' }, { scaleX: 1, opacity: 1, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(nextElement, speed, { scaleX: 0.000001, opacity: 0.5, transformOrigin: 'center right' }, { scaleX: 1, opacity: 1, ease: easing });
 
-				_gsap.TweenMax.fromTo(currentElement, speed, { scaleX: 1, opacity: 1, transformOrigin: 'center left' }, { scaleX: 0.000001, opacity: 0.5, z: width, ease: ease.easeInOut });
+				_gsap.TweenMax.fromTo(currentElement, speed, { scaleX: 1, opacity: 1, transformOrigin: 'center left' }, { scaleX: 0.000001, opacity: 0.5, z: width, ease: easing });
 			}
 		};
 
@@ -1450,7 +1452,13 @@ function setInstantInterval(functionRef, interval) {
 
 function generateEasing(easing, customEasing) {
 	if (validEasings.indexOf(easing) >= 0) {
-		return _gsap2.default[easing];
+		if (easing === 'Rough') {
+			return _gsap2.default.RoughEase;
+		} else if (easing === 'Stepped') {
+			return _gsap2.default.SteppedEase;
+		} else {
+			return _gsap2.default[easing];
+		}
 	} else {
 		return _gsap.Power3;
 	}
