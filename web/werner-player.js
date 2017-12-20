@@ -1189,11 +1189,11 @@ var _slideItem = __webpack_require__(6);
 
 var _slideItem2 = _interopRequireDefault(_slideItem);
 
-var _gsap = __webpack_require__(7);
+var _gsap = __webpack_require__(9);
 
 var _gsap2 = _interopRequireDefault(_gsap);
 
-var _indicatorContainer = __webpack_require__(8);
+var _indicatorContainer = __webpack_require__(10);
 
 var _indicatorContainer2 = _interopRequireDefault(_indicatorContainer);
 
@@ -1231,7 +1231,10 @@ var Player = function (_Component) {
 			} else if (slides.length >= 2) {
 				return slides.map(function (slide, i) {
 					var name = slide.name,
-					    url = slide.url;
+					    url = slide.url,
+					    externalLink = slide.externalLink,
+					    externalLinkType = slide.externalLinkType;
+
 
 					return (0, _preact.h)(_slideItem2.default, {
 						containerRef: function containerRef(instance) {
@@ -1240,6 +1243,7 @@ var Player = function (_Component) {
 						wrapperStyle: {
 							position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 },
 						index: i, key: i, name: name, url: url,
+						externalLink: externalLink, externalLinkType: externalLinkType,
 						onHypeLayout: _this.updateRatio });
 				});
 			}
@@ -1478,6 +1482,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _preact = __webpack_require__(0);
 
+var _validUrl = __webpack_require__(7);
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -1491,6 +1497,12 @@ var SlideItem = function (_Component) {
 		_classCallCheck(this, SlideItem);
 
 		var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+		_this.onSlideClick = function () {
+			if (_this.state.hasValidLink) {
+				window.open(_this.props.externalLink, _this.props.externalLinkType || '_blank');
+			}
+		};
 
 		_this.injectScript = function () {
 			var script = document.createElement('script');
@@ -1554,7 +1566,8 @@ var SlideItem = function (_Component) {
 		};
 
 		_this.state = {
-			height: 300
+			height: 300,
+			hasValidLink: (0, _validUrl.isUri)(_this.props.externalLink)
 		};
 		return _this;
 	}
@@ -1566,13 +1579,15 @@ var SlideItem = function (_Component) {
 	SlideItem.prototype.render = function render() {
 		var _this2 = this;
 
-		var containerStyle = _extends({}, styles.container, this.props.wrapperStyle);
+		var cursorStyle = this.state.hasValidLink ? { cursor: 'pointer' } : {},
+		    containerStyle = _extends({}, styles.container, cursorStyle, this.props.wrapperStyle);
 
 		return (0, _preact.h)(
 			'div',
 			{
 				ref: this.props.containerRef,
-				style: containerStyle },
+				style: containerStyle,
+				onClick: this.onSlideClick },
 			(0, _preact.h)('div', {
 				ref: function ref(instance) {
 					_this2.scriptContainer = instance;
@@ -1622,6 +1637,196 @@ function find(array, predicate) {
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {
+
+(function (module) {
+    'use strict';
+
+    module.exports.is_uri = is_iri;
+    module.exports.is_http_uri = is_http_iri;
+    module.exports.is_https_uri = is_https_iri;
+    module.exports.is_web_uri = is_web_iri;
+    // Create aliases
+    module.exports.isUri = is_iri;
+    module.exports.isHttpUri = is_http_iri;
+    module.exports.isHttpsUri = is_https_iri;
+    module.exports.isWebUri = is_web_iri;
+
+    // private function
+    // internal URI spitter method - direct from RFC 3986
+    var splitUri = function splitUri(uri) {
+        var splitted = uri.match(/(?:([^:\/?#]+):)?(?:\/\/([^\/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?/);
+        return splitted;
+    };
+
+    function is_iri(value) {
+        if (!value) {
+            return;
+        }
+
+        // check for illegal characters
+        if (/[^a-z0-9\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\.\-\_\~\%]/i.test(value)) return;
+
+        // check for hex escapes that aren't complete
+        if (/%[^0-9a-f]/i.test(value)) return;
+        if (/%[0-9a-f](:?[^0-9a-f]|$)/i.test(value)) return;
+
+        var splitted = [];
+        var scheme = '';
+        var authority = '';
+        var path = '';
+        var query = '';
+        var fragment = '';
+        var out = '';
+
+        // from RFC 3986
+        splitted = splitUri(value);
+        scheme = splitted[1];
+        authority = splitted[2];
+        path = splitted[3];
+        query = splitted[4];
+        fragment = splitted[5];
+
+        // scheme and path are required, though the path can be empty
+        if (!(scheme && scheme.length && path.length >= 0)) return;
+
+        // if authority is present, the path must be empty or begin with a /
+        if (authority && authority.length) {
+            if (!(path.length === 0 || /^\//.test(path))) return;
+        } else {
+            // if authority is not present, the path must not start with //
+            if (/^\/\//.test(path)) return;
+        }
+
+        // scheme must begin with a letter, then consist of letters, digits, +, ., or -
+        if (!/^[a-z][a-z0-9\+\-\.]*$/.test(scheme.toLowerCase())) return;
+
+        // re-assemble the URL per section 5.3 in RFC 3986
+        out += scheme + ':';
+        if (authority && authority.length) {
+            out += '//' + authority;
+        }
+
+        out += path;
+
+        if (query && query.length) {
+            out += '?' + query;
+        }
+
+        if (fragment && fragment.length) {
+            out += '#' + fragment;
+        }
+
+        return out;
+    }
+
+    function is_http_iri(value, allowHttps) {
+        if (!is_iri(value)) {
+            return;
+        }
+
+        var splitted = [];
+        var scheme = '';
+        var authority = '';
+        var path = '';
+        var port = '';
+        var query = '';
+        var fragment = '';
+        var out = '';
+
+        // from RFC 3986
+        splitted = splitUri(value);
+        scheme = splitted[1];
+        authority = splitted[2];
+        path = splitted[3];
+        query = splitted[4];
+        fragment = splitted[5];
+
+        if (!scheme) return;
+
+        if (allowHttps) {
+            if (scheme.toLowerCase() != 'https') return;
+        } else {
+            if (scheme.toLowerCase() != 'http') return;
+        }
+
+        // fully-qualified URIs must have an authority section that is
+        // a valid host
+        if (!authority) {
+            return;
+        }
+
+        // enable port component
+        if (/:(\d+)$/.test(authority)) {
+            port = authority.match(/:(\d+)$/)[0];
+            authority = authority.replace(/:\d+$/, '');
+        }
+
+        out += scheme + ':';
+        out += '//' + authority;
+
+        if (port) {
+            out += port;
+        }
+
+        out += path;
+
+        if (query && query.length) {
+            out += '?' + query;
+        }
+
+        if (fragment && fragment.length) {
+            out += '#' + fragment;
+        }
+
+        return out;
+    }
+
+    function is_https_iri(value) {
+        return is_http_iri(value, true);
+    }
+
+    function is_web_iri(value) {
+        return is_http_iri(value) || is_https_iri(value);
+    }
+})(module);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)(module)))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (module) {
+	if (!module.webpackPolyfill) {
+		module.deprecate = function () {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function get() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function get() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10024,7 +10229,7 @@ if (_gsScope._gsDefine) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10041,11 +10246,11 @@ var _maxamedIndicator = __webpack_require__(2);
 
 var _maxamedIndicator2 = _interopRequireDefault(_maxamedIndicator);
 
-var _ubaxIndicator = __webpack_require__(9);
+var _ubaxIndicator = __webpack_require__(11);
 
 var _ubaxIndicator2 = _interopRequireDefault(_ubaxIndicator);
 
-var _magoolIndicator = __webpack_require__(10);
+var _magoolIndicator = __webpack_require__(12);
 
 var _magoolIndicator2 = _interopRequireDefault(_magoolIndicator);
 
@@ -10132,7 +10337,7 @@ var indicatorTypes = {
 };
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10180,7 +10385,7 @@ var UbaxIndicator = exports.UbaxIndicator = function (_Component) {
 exports.default = UbaxIndicator;
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
