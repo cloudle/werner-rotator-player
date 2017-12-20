@@ -12,13 +12,15 @@
 		"indicatorSnapping": "bottom",
 		"indicatorDirection": "row",
 		"indicatorSize": 15,
-		"indicatorColor": "#ffffff",
+		"indicatorColor": "#ff0000",
 		"indicatorPadding": 20
 	},
 	"slides": [
 		{
 			"img": "",
 			"alt": "",
+			"externalLink": "http://localhost:3000",
+			"externalLinkType": "_self",
 			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Defender Series/Defender Series.hyperesources/defenderseries_hype_generated_script.js",
 			"captionPosition": "",
 			"bgColor": "",

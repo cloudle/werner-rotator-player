@@ -53,12 +53,14 @@ export default class Player extends Component {
 				onHypeLayout={this.updateRatio}/>;
 		} else if (slides.length >= 2) {
 			return slides.map((slide, i) => {
-				const { name, url } = slide;
+				const { name, url, externalLink, externalLinkType } = slide;
+
 				return <SlideItem
 					containerRef={(instance) => { this.slideRefs[i] = instance } }
 					wrapperStyle={{
 						position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
 					index={i} key={i} name={name} url={url}
+					externalLink={externalLink} externalLinkType={externalLinkType}
 					onHypeLayout={this.updateRatio}/>;
 			});
 		}

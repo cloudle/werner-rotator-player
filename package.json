@@ -22,7 +22,8 @@
     "gsap": "^1.20.3",
     "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
-    "radium": "^0.19.6"
+    "radium": "^0.19.6",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
