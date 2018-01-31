@@ -1293,9 +1293,9 @@ var Player = function (_Component) {
 		};
 
 		_this.playFadeEffect = function (currentElement, nextElement, speed, ease) {
-			_gsap.TweenMax.fromTo(nextElement, speed, { opacity: 0, zIndex: 9 }, { opacity: 1, ease: ease.easeIn || ease.ease });
+			_gsap.TweenMax.fromTo(nextElement, speed, { opacity: 0, zIndex: 999 }, { opacity: 1, ease: ease.easeIn || ease.ease });
 
-			_gsap.TweenMax.fromTo(currentElement, speed, { opacity: 1, zIndex: 8 }, { opacity: 0, ease: ease.easeOut || ease.ease, delay: speed / 2 });
+			_gsap.TweenMax.fromTo(currentElement, speed, { opacity: 1, zIndex: 998 }, { opacity: 0, ease: ease.easeOut || ease.ease, delay: speed / 2 });
 		};
 
 		_this.playTransitionEffect = function (currentElement, nextElement, speed, ease, slideFrom) {
@@ -1365,6 +1365,10 @@ var Player = function (_Component) {
 		this.playTimeout = setTimeout(function () {
 			return _this2.playTransition(0);
 		}, interval);
+		setTimeout(function () {
+			/* make sure the first item appear on top! */
+			_gsap.TweenMax.set(_this2.slideRefs[0], { zIndex: 999 });
+		}, 0);
 	};
 
 	Player.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -1413,8 +1417,8 @@ var Player = function (_Component) {
 				_gsap.TweenMax.set(this.slideRefs[i], { zIndex: 0 });
 			}
 
-			_gsap.TweenMax.set(this.slideRefs[currentIndex], { zIndex: 8 });
-			_gsap.TweenMax.set(this.slideRefs[nextIndex], { zIndex: 9 });
+			_gsap.TweenMax.set(this.slideRefs[currentIndex], { zIndex: 998 });
+			_gsap.TweenMax.set(this.slideRefs[nextIndex], { zIndex: 999 });
 
 			if (transition === 'slide') {
 				this.playTransitionEffect(this.slideRefs[currentIndex], this.slideRefs[nextIndex], tweenSpeed, easing, slideFrom);
@@ -10276,7 +10280,7 @@ var IndicatorContainer = function (_Component) {
 
 		var containerStyle = _extends({
 			display: 'flex', alignItems: 'center',
-			position: 'absolute', zIndex: 11
+			position: 'absolute', zIndex: 1001
 		}, getSnappingStyles(this.props.snapping, this.props.direction, this.props.padding)),
 		    Indicator = indicatorTypes[this.props.indicatorType] || _maxamedIndicator2.default;
 
