@@ -8,7 +8,7 @@ export default class IndicatorContainer extends Component {
 	render() {
 		const containerStyle = {
 				display: 'flex', alignItems: 'center',
-				position: 'absolute', zIndex: 11,
+				position: 'absolute', zIndex: 1001,
 				...getSnappingStyles(this.props.snapping, this.props.direction, this.props.padding),
 			},
 			Indicator = indicatorTypes[this.props.indicatorType] || MaxamedIndicator;

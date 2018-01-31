@@ -26,6 +26,9 @@ export default class Player extends Component {
 
 		const interval = this.props.configs.data.interval || 6000;
 		this.playTimeout = setTimeout(() => this.playTransition(0), interval);
+		setTimeout(() => { /* make sure the first item appear on top! */
+			TweenMax.set(this.slideRefs[0], { zIndex: 999 });
+		}, 0);
 	}
 
 	componentWillUnmount() {
@@ -121,8 +124,8 @@ export default class Player extends Component {
 				TweenMax.set(this.slideRefs[i], { zIndex: 0 });
 			}
 
-			TweenMax.set(this.slideRefs[currentIndex], { zIndex: 8 });
-			TweenMax.set(this.slideRefs[nextIndex], { zIndex: 9 });
+			TweenMax.set(this.slideRefs[currentIndex], { zIndex: 998 });
+			TweenMax.set(this.slideRefs[nextIndex], { zIndex: 999 });
 
 			if (transition === 'slide') {
 				this.playTransitionEffect(
@@ -156,12 +159,12 @@ export default class Player extends Component {
 	playFadeEffect = (currentElement, nextElement, speed, ease) => {
 		TweenMax.fromTo(
 			nextElement, speed,
-			{ opacity: 0, zIndex: 9, },
+			{ opacity: 0, zIndex: 999, },
 			{ opacity: 1, ease: ease.easeIn || ease.ease, });
 
 		TweenMax.fromTo(
 			currentElement, speed,
-			{ opacity: 1, zIndex: 8, },
+			{ opacity: 1, zIndex: 998, },
 			{ opacity: 0, ease: ease.easeOut || ease.ease, delay: speed / 2, });
 	};
 
