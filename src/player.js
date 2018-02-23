@@ -70,9 +70,9 @@ export default class Player extends Component {
 	};
 
 	renderIndicator = () => {
-		const { data = {} } = this.props.configs;
+		const { data = {}, slides = [], } = this.props.configs;
 
-		return <NavigationIndicator
+		return slides.length > 1 ? <NavigationIndicator
 			slides={this.props.configs.slides}
 			activeIndex={this.state.slideIndex}
 			onNavigate={(position) => {
@@ -83,7 +83,7 @@ export default class Player extends Component {
 			indicatorType={data.indicatorType}
 			indicatorColor={data.indicatorColor}
 			indicatorSize={data.indicatorSize}
-			padding={data.indicatorPadding}/>;
+			padding={data.indicatorPadding}/> : null;
 	};
 
 	onResize = (e) => {

@@ -1250,11 +1250,14 @@ var Player = function (_Component) {
 		};
 
 		_this.renderIndicator = function () {
-			var _this$props$configs$d = _this.props.configs.data,
-			    data = _this$props$configs$d === undefined ? {} : _this$props$configs$d;
+			var _this$props$configs2 = _this.props.configs,
+			    _this$props$configs2$ = _this$props$configs2.data,
+			    data = _this$props$configs2$ === undefined ? {} : _this$props$configs2$,
+			    _this$props$configs2$2 = _this$props$configs2.slides,
+			    slides = _this$props$configs2$2 === undefined ? [] : _this$props$configs2$2;
 
 
-			return (0, _preact.h)(_indicatorContainer2.default, {
+			return slides.length > 1 ? (0, _preact.h)(_indicatorContainer2.default, {
 				slides: _this.props.configs.slides,
 				activeIndex: _this.state.slideIndex,
 				onNavigate: function onNavigate(position) {
@@ -1265,7 +1268,7 @@ var Player = function (_Component) {
 				indicatorType: data.indicatorType,
 				indicatorColor: data.indicatorColor,
 				indicatorSize: data.indicatorSize,
-				padding: data.indicatorPadding });
+				padding: data.indicatorPadding }) : null;
 		};
 
 		_this.onResize = function (e) {
