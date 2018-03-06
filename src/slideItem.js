@@ -47,8 +47,6 @@ export default class SlideItem extends Component {
 
 	initializeHypeLayout = () => {
 		if (!global.HYPE || !this.scriptContainer) return;
-		/* clear the initial layout watch.. */
-		if (this.layoutInterval) clearInterval(this.layoutInterval);
 
 		const { clientHeight, clientWidth } = this.scriptContainer,
 			hypeDocuments = global.HYPE.documents,
@@ -61,6 +59,9 @@ export default class SlideItem extends Component {
 			}
 			return;
 		}
+
+		/* clear the initial layout watch.. */
+		if (this.layoutInterval) clearInterval(this.layoutInterval);
 
 		const setupLayout = () => {
 			const currentLayoutName = hypeInstance.currentLayoutName(),
