@@ -29,6 +29,12 @@ export default class Player extends Component {
 		setTimeout(() => { /* make sure the first item appear on top! */
 			TweenMax.set(this.slideRefs[0], { zIndex: 999 });
 		}, 0);
+
+		/* Invoke window resizeEvent after 5 seconds on IE 11
+		* to make sure rendering happen correctly with the right ratio */
+		if (!!window.MSInputMethodContext) {
+			setTimeout(() => simulateResizeEvent(), 5000);
+		}
 	}
 
 	componentWillUnmount() {
@@ -290,4 +296,10 @@ function generateEasing(easing, customEasing) {
 	} else {
 		return Power3;
 	}
+}
+
+function simulateResizeEvent() {
+	const resizeEvent = window.document.createEvent('UIEvents');
+	resizeEvent .initUIEvent('resize', true, false, window, 0);
+	window.dispatchEvent(resizeEvent);
 }
