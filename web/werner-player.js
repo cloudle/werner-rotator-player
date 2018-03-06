@@ -1351,7 +1351,7 @@ var Player = function (_Component) {
 
 		_this.slideRefs = {};
 		_this.state = {
-			widthRatio: 9999, /* make initial height very close to ZERO */
+			widthRatio: 99999999, /* make initial height very close to ZERO */
 			width: 1, height: 1,
 			counter: 0,
 			slideIndex: 0
@@ -1435,7 +1435,9 @@ var Player = function (_Component) {
 				return _this3.playTransition(nextIndex);
 			}, interval);
 		} catch (e) {
-			console.log('Cannot play slide ' + currentIndex + '|>' + nextIndex + ', recovered from crash:', e);
+			if (console) {
+				console.log('Cannot play slide ' + currentIndex + '|>' + nextIndex + ', recovered from crash:', e);
+			}
 			this.playTimeout = setTimeout(function () {
 				return _this3.playTransition(nextIndex);
 			}, interval);
@@ -1538,7 +1540,9 @@ var SlideItem = function (_Component) {
 
 
 			if (!hypeInstance) {
-				console.log('[WernerPlayer] cannot find hype of name: ' + _this.props.name);
+				if (console) {
+					console.log('[WernerPlayer] cannot find hype of name: ' + _this.props.name);
+				}
 				return;
 			}
 
