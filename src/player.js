@@ -14,7 +14,7 @@ export default class Player extends Component {
 
 		this.slideRefs = {};
 		this.state = {
-			widthRatio: 9999, /* make initial height very close to ZERO */
+			widthRatio: 99999999, /* make initial height very close to ZERO */
 			width: 1, height: 1,
 			counter: 0,
 			slideIndex: 0,
@@ -148,7 +148,9 @@ export default class Player extends Component {
 
 			this.playTimeout = setTimeout(() => this.playTransition(nextIndex), interval);
 		} catch (e) {
-			console.log(`Cannot play slide ${currentIndex}|>${nextIndex}, recovered from crash:`, e);
+			if (console) {
+				console.log(`Cannot play slide ${currentIndex}|>${nextIndex}, recovered from crash:`, e);
+			}
 			this.playTimeout = setTimeout(() => this.playTransition(nextIndex), interval);
 		}
 
