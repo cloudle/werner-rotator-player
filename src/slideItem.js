@@ -55,7 +55,7 @@ export default class SlideItem extends Component {
 
 		if (!hypeInstance) {
 			if (console) {
-				console.log(`[WernerPlayer] cannot find hype of name: ${this.props.name}`);
+				console.log(`[WernerPlayer] cannot find hype of name: ${this.props.name}, retry...`);
 			}
 			return;
 		}
