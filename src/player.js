@@ -76,7 +76,9 @@ export default class Player extends Component {
 			slides={this.props.configs.slides}
 			activeIndex={this.state.slideIndex}
 			onNavigate={(position) => {
-				this.playTransition(this.state.slideIndex, position);
+				if (this.state.slideIndex !== position) {
+					this.playTransition(this.state.slideIndex, position);
+				}
 			}}
 			snapping={data.indicatorSnapping}
 			direction={data.indicatorDirection}
