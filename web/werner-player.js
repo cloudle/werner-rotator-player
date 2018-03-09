@@ -1261,7 +1261,9 @@ var Player = function (_Component) {
 				slides: _this.props.configs.slides,
 				activeIndex: _this.state.slideIndex,
 				onNavigate: function onNavigate(position) {
-					_this.playTransition(_this.state.slideIndex, position);
+					if (_this.state.slideIndex !== position) {
+						_this.playTransition(_this.state.slideIndex, position);
+					}
 				},
 				snapping: data.indicatorSnapping,
 				direction: data.indicatorDirection,
@@ -1372,6 +1374,14 @@ var Player = function (_Component) {
 			/* make sure the first item appear on top! */
 			_gsap.TweenMax.set(_this2.slideRefs[0], { zIndex: 999 });
 		}, 0);
+
+		/* Invoke window resizeEvent after 5 seconds on IE 11
+  * to make sure rendering happen correctly with the right ratio */
+		if (!!window.MSInputMethodContext) {
+			setTimeout(function () {
+				return simulateResizeEvent();
+			}, 5000);
+		}
 	};
 
 	Player.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -1477,6 +1487,12 @@ function generateEasing(easing, customEasing) {
 	}
 }
 
+function simulateResizeEvent() {
+	var resizeEvent = window.document.createEvent('UIEvents');
+	resizeEvent.initUIEvent('resize', true, false, window, 0);
+	window.dispatchEvent(resizeEvent);
+}
+
 /***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1528,8 +1544,6 @@ var SlideItem = function (_Component) {
 
 		_this.initializeHypeLayout = function () {
 			if (!global.HYPE || !_this.scriptContainer) return;
-			/* clear the initial layout watch.. */
-			if (_this.layoutInterval) clearInterval(_this.layoutInterval);
 
 			var _this$scriptContainer = _this.scriptContainer,
 			    clientHeight = _this$scriptContainer.clientHeight,
@@ -1541,10 +1555,13 @@ var SlideItem = function (_Component) {
 
 			if (!hypeInstance) {
 				if (console) {
-					console.log('[WernerPlayer] cannot find hype of name: ' + _this.props.name);
+					console.log('[WernerPlayer] cannot find hype of name: ' + _this.props.name + ', retry...');
 				}
 				return;
 			}
+
+			/* clear the initial layout watch.. */
+			if (_this.layoutInterval) clearInterval(_this.layoutInterval);
 
 			var setupLayout = function setupLayout() {
 				var currentLayoutName = hypeInstance.currentLayoutName(),
