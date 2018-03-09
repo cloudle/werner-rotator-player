@@ -1374,14 +1374,6 @@ var Player = function (_Component) {
 			/* make sure the first item appear on top! */
 			_gsap.TweenMax.set(_this2.slideRefs[0], { zIndex: 999 });
 		}, 0);
-
-		/* Invoke window resizeEvent after 5 seconds on IE 11
-  * to make sure rendering happen correctly with the right ratio */
-		if (!!window.MSInputMethodContext) {
-			setTimeout(function () {
-				return simulateResizeEvent();
-			}, 5000);
-		}
 	};
 
 	Player.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -1562,13 +1554,16 @@ var SlideItem = function (_Component) {
 
 			/* clear the initial layout watch.. */
 			if (_this.layoutInterval) clearInterval(_this.layoutInterval);
+			if (console) {
+				console.log('[WernerPlayer] initialized: ' + _this.props.name);
+			}
 
 			var setupLayout = function setupLayout() {
-				var currentLayoutName = hypeInstance.currentLayoutName(),
-				    currentSceneName = hypeInstance.currentSceneName(),
+				var currentSceneName = hypeInstance.currentSceneName(),
 				    layouts = hypeInstance.layoutsForSceneNamed(currentSceneName),
+				    currentLayout = getCurrentLayout(layouts),
 				    currentScene = find(layouts, function (layout) {
-					return layout.name === currentLayoutName;
+					return layout.name === currentLayout.name;
 				}),
 				    widthRatio = clientWidth / currentScene.width;
 
@@ -1637,12 +1632,14 @@ function extractHypeNameFromUrl(url) {
 	return url.substring(startIndex, endIndex);
 }
 
-var styles = {
-	container: {}
-};
+function getCurrentLayout(layouts) {
+	var sortedLayouts = layouts.sort(function (a, b) {
+		if (a.breakpoint < b.breakpoint) return 1;
+		if (a.breakpoint > b.breakpoint) return -1;
+		return 0;
+	}); /* From layout with bigger breakpoint to smaller one.. */
 
-function find(array, predicate) {
-	for (var _iterator = array, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+	for (var _iterator = sortedLayouts, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
 		var _ref;
 
 		if (_isArray) {
@@ -1654,7 +1651,32 @@ function find(array, predicate) {
 			_ref = _i.value;
 		}
 
-		var item = _ref;
+		var layout = _ref;
+
+		if (window.innerWidth > layout.breakpoint) {
+			return layout;
+		}
+	}
+}
+
+var styles = {
+	container: {}
+};
+
+function find(array, predicate) {
+	for (var _iterator2 = array, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+		var _ref2;
+
+		if (_isArray2) {
+			if (_i2 >= _iterator2.length) break;
+			_ref2 = _iterator2[_i2++];
+		} else {
+			_i2 = _iterator2.next();
+			if (_i2.done) break;
+			_ref2 = _i2.value;
+		}
+
+		var item = _ref2;
 
 		if (predicate(item)) return item;
 	}
