@@ -62,6 +62,9 @@ export default class SlideItem extends Component {
 
 		/* clear the initial layout watch.. */
 		if (this.layoutInterval) clearInterval(this.layoutInterval);
+		if (console) {
+			console.log(`[WernerPlayer] initialized: ${this.props.name}`);
+		}
 
 		const setupLayout = () => {
 			const currentSceneName = hypeInstance.currentSceneName(),
