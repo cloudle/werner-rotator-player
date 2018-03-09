@@ -64,10 +64,10 @@ export default class SlideItem extends Component {
 		if (this.layoutInterval) clearInterval(this.layoutInterval);
 
 		const setupLayout = () => {
-			const currentLayoutName = hypeInstance.currentLayoutName(),
-				currentSceneName = hypeInstance.currentSceneName(),
+			const currentSceneName = hypeInstance.currentSceneName(),
 				layouts = hypeInstance.layoutsForSceneNamed(currentSceneName),
-				currentScene = find(layouts, layout => layout.name === currentLayoutName),
+				currentLayout = getCurrentLayout(layouts),
+				currentScene = find(layouts, layout => layout.name === currentLayout.name),
 				widthRatio = clientWidth / currentScene.width;
 
 			if (this.props.onHypeLayout) this.props.onHypeLayout({
@@ -97,6 +97,20 @@ function extractHypeNameFromUrl(url) {
 		startIndex = url.lastIndexOf('/', endIndex) + 1;
 
 	return url.substring(startIndex, endIndex);
+}
+
+function getCurrentLayout(layouts) {
+	const sortedLayouts = layouts.sort((a, b) => {
+		if (a.breakpoint < b.breakpoint) return 1;
+		if (a.breakpoint > b.breakpoint) return -1;
+		return 0;
+	}); /* From layout with bigger breakpoint to smaller one.. */
+
+	for (const layout of sortedLayouts) {
+		if (window.innerWidth > layout.breakpoint) {
+			return layout;
+		}
+	}
 }
 
 const styles = {
