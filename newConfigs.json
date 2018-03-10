@@ -1,0 +1,96 @@
+{
+	"data": {
+		"target": "#carousel1",
+		"ride": "carousel",
+		"interval": 7000,
+		"transition": "slide",
+		"speed": 500,
+		"easing": "Power1",
+		"slideFrom": "right",
+		"customEasing": "",
+		"indicatorType": "maxamed",
+		"indicatorSnapping": "bottom",
+		"indicatorDirection": "row",
+		"indicatorColor": "#ffffff",
+		"indicatorPadding": 20,
+		"indicatorSize": 15
+	},
+	"slides": [
+		{
+			"img": "",
+			"alt": "",
+			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Defender Series/Defender Series.hyperesources/defenderseries_hype_generated_script.js",
+			"captionPosition": "",
+			"bgColor": "",
+			"active": true,
+			"h2": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"h3": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"p": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"type": "hype",
+			"name": "defenderseries"
+		},
+		{
+			"img": "",
+			"alt": "",
+			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Pack Rat/Pack Rat.hyperesources/packrat_hype_generated_script.js",
+			"captionPosition": "",
+			"bgColor": "",
+			"active": false,
+			"h2": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"h3": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"p": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"type": "hype",
+			"name": "packrat"
+		},
+		{
+			"img": "",
+			"alt": "",
+			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Pro Trade Packages/Pro Trade Packages.hyperesources/protradepackages_hype_generated_script.js",
+			"captionPosition": "",
+			"bgColor": "",
+			"active": false,
+			"h2": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"h3": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"p": {
+				"fgColor": "fg-black",
+				"css": "title",
+				"text": ""
+			},
+			"type": "hype",
+			"name": "protradepackages"
+		}
+	],
+	"showSignupForm": false
+}

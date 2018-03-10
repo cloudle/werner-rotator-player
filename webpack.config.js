@@ -59,6 +59,7 @@ module.exports = {
 			{
 				test: /\.js?$/,
 				loaders: ['babel-loader'],
+				exclude: /node_modules|packages/,
 			},
 			{ test: /\.css$/, loader: 'style-loader!css-loader' },
 			{

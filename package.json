@@ -1,6 +1,6 @@
 {
   "name": "werner-rotator-player",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "",
   "main": "dist",
   "files": [
@@ -23,6 +23,7 @@
     "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
     "radium": "^0.19.6",
+    "unique-selector": "^0.3.6",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {

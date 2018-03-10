@@ -17,231 +17,39 @@
 	},
 	"slides": [
 		{
-			"img": "",
-			"alt": "",
-			"externalLink": "http://localhost:3000",
-			"externalLinkType": "_self",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Defender Series/Defender Series.hyperesources/defenderseries_hype_generated_script.js",
-			"captionPosition": "",
-			"bgColor": "",
+			"type": "hype",
 			"active": true,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"type": "hype",
-			"name": "defenderseries"
+			"bgColor": "",
+			"name": "bossehshow",
+			"url": "https://s3.amazonaws.com/dynamopim.prod.webdev.wernerco.com/cms/hype/boss/homepage/Boss_EHShow/Boss_EHShow.hyperesources/bossehshow_hype_generated_script.js"
 		},
 		{
-			"img": "",
-			"alt": "",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Durability, Security, Accessibility/Durability, Security, Accessibility.hyperesources/durabilitysecurityaccessibility_hype_generated_script.js",
-			"captionPosition": "",
-			"bgColor": "",
-			"active": false,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
 			"type": "hype",
-			"name": "durabilitysecurityaccessibility"
+			"active": false,
+			"bgColor": "",
+			"name": "bossendlinkedaccesstowerhomepagebanner",
+			"url": "https://s3.amazonaws.com/dynamopim.prod.webdev.wernerco.com/cms/hype/boss/homepage/BoSS_End-Linked_Access_Tower_Homepage_Banner/BoSS_End-Linked_Access_Tower_Homepage_Banner.hyperesources/bossendlinkedaccesstowerhomepagebanner_hype_generated_script.js"
 		},
 		{
-			"img": "",
-			"alt": "",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Pack Rat/Pack Rat.hyperesources/packrat_hype_generated_script.js",
-			"captionPosition": "",
-			"bgColor": "",
-			"active": false,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
 			"type": "hype",
-			"name": "packrat"
+			"active": false,
+			"bgColor": "",
+			"name": "bosscantileveraccesstowerhomepagebillboard",
+			"url": "https://s3.amazonaws.com/dynamopim.prod.webdev.wernerco.com/cms/hype/boss/homepage/BoSS_Cantilever_Access_Tower_Homepage_Billboard/BoSS_Cantilever_Access_Tower_Homepage_Billboard.hyperesources/bosscantileveraccesstowerhomepagebillboard_hype_generated_script.js"
 		},
 		{
-			"img": "",
-			"alt": "",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Pro Trade Packages/Pro Trade Packages.hyperesources/protradepackages_hype_generated_script.js",
-			"captionPosition": "",
-			"bgColor": "",
-			"active": false,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
 			"type": "hype",
-			"name": "protradepackages"
+			"active": false,
+			"bgColor": "",
+			"name": "bosszone1",
+			"url": "https://s3.amazonaws.com/dynamopim.prod.webdev.wernerco.com/cms/hype/boss/homepage/BoSS_Zone1/BoSS_Zone1.hyperesources/bosszone1_hype_generated_script.js"
 		},
 		{
-			"img": "",
-			"alt": "",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Ram ProMaster/Ram ProMaster.hyperesources/rampromaster_hype_generated_script.js",
-			"captionPosition": "",
-			"bgColor": "",
-			"active": false,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
 			"type": "hype",
-			"name": "rampromaster"
-		},
-		{
-			"img": "",
-			"alt": "",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Save of the Night/Save of the Night.hyperesources/saveofthenight_hype_generated_script.js",
-			"captionPosition": "",
-			"bgColor": "",
 			"active": false,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"type": "hype",
-			"name": "saveofthenight"
-		},
-		{
-			"img": "",
-			"alt": "",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Toughest Truck Boxes/Toughest Truck Boxes.hyperesources/toughesttruckboxes_hype_generated_script.js",
-			"captionPosition": "",
 			"bgColor": "",
-			"active": false,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"type": "hype",
-			"name": "toughesttruckboxes"
-		},
-		{
-			"img": "",
-			"alt": "",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/Van Packages/Van Packages.hyperesources/vanpackages_hype_generated_script.js",
-			"captionPosition": "",
-			"bgColor": "",
-			"active": false,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"type": "hype",
-			"name": "vanpackages"
-		},
-		{
-			"img": "",
-			"alt": "",
-			"url": "https://s3.amazonaws.com/dynamopim.test.webdev.wernerco.com/cms/hype/Weatherguard/HP_Rotator/WG Nation/WG Nation.hyperesources/wgnation_hype_generated_script.js",
-			"captionPosition": "",
-			"bgColor": "",
-			"active": false,
-			"h2": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"h3": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"p": {
-				"fgColor": "fg-black",
-				"css": "title",
-				"text": ""
-			},
-			"type": "hype",
-			"name": "wgnation"
+			"name": "bossxseries",
+			"url": "https://s3.amazonaws.com/dynamopim.prod.webdev.wernerco.com/cms/hype/boss/homepage/BoSS_XSeries/BoSS_XSeries.hyperesources/bossxseries_hype_generated_script.js"
 		}
 	],
 	"showSignupForm": false

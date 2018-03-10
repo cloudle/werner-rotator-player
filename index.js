@@ -1,8 +1,10 @@
 import { h, render } from 'preact';
 
 import { playSlide } from './src';
-import configs from './slideConfigs.json';
+import configs from './newConfigs.json';
 
-const element = document.getElementById('root');
+const container = document.getElementById('root');
+const childContainer = document.getElementById('child-player');
 
-playSlide(element, configs);
+playSlide(container, configs);
+playSlide(childContainer, configs);
