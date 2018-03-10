@@ -1,6 +1,6 @@
 import { h, render } from 'preact';
-import unique from 'unique-selector';
 import Player from './player';
+import unique from 'css-path';
 import { getCurrentLayout, arrayFind, simulateResizeEvent } from "./utils";
 
 const playerInstances = {};

@@ -19,11 +19,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "css-path": "^1.0.3",
     "gsap": "^1.20.3",
     "preact": "^8.2.5",
     "preact-compat": "^3.17.0",
     "radium": "^0.19.6",
-    "unique-selector": "^0.3.6",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
