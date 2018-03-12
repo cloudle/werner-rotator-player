@@ -27,3 +27,14 @@ export function arrayFind(array, predicate) {
 
 	return undefined;
 }
+
+export function debounce(fn, duration) {
+	let timeout;
+	return function () {
+		clearTimeout(timeout);
+		timeout = setTimeout(() => {
+			timeout = null;
+			fn.apply(this, arguments);
+		}, duration);
+	};
+}

@@ -1,9 +1,10 @@
 import { h, render } from 'preact';
 import Player from './player';
 import unique from 'css-path';
-import { getCurrentLayout, arrayFind, simulateResizeEvent } from "./utils";
+import { getCurrentLayout, arrayFind, simulateResizeEvent, debounce } from "./utils";
 
-const playerInstances = {};
+const playerInstances = {},
+	debouncedResize = debounce(simulateResizeEvent, 500);
 
 export function playSlide(element, slideConfigs) {
 	render(<Player
@@ -36,6 +37,7 @@ function onSceneLoad(hype) {
 
 	hype.relayoutIfNecessary && hype.relayoutIfNecessary();
 	currentScene.widthRatioToContainer = widthRatio;
+	debouncedResize();
 }
 
 if (typeof window !== 'undefined') {

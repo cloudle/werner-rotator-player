@@ -1169,7 +1169,8 @@ var _utils = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var playerInstances = {};
+var playerInstances = {},
+    debouncedResize = (0, _utils.debounce)(_utils.simulateResizeEvent, 500);
 
 function playSlide(element, slideConfigs) {
 	(0, _preact.render)((0, _preact.h)(_player2.default, {
@@ -1208,6 +1209,7 @@ function onSceneLoad(hype) {
 
 	hype.relayoutIfNecessary && hype.relayoutIfNecessary();
 	currentScene.widthRatioToContainer = widthRatio;
+	debouncedResize();
 }
 
 if (typeof window !== 'undefined') {
@@ -10518,6 +10520,7 @@ exports.__esModule = true;
 exports.simulateResizeEvent = simulateResizeEvent;
 exports.getCurrentLayout = getCurrentLayout;
 exports.arrayFind = arrayFind;
+exports.debounce = debounce;
 function simulateResizeEvent() {
 	var resizeEvent = window.document.createEvent('UIEvents');
 	resizeEvent.initUIEvent('resize', true, false, window, 0);
@@ -10572,6 +10575,20 @@ function arrayFind(array, predicate) {
 	}
 
 	return undefined;
+}
+
+function debounce(fn, duration) {
+	var timeout = void 0;
+	return function () {
+		var _this = this,
+		    _arguments = arguments;
+
+		clearTimeout(timeout);
+		timeout = setTimeout(function () {
+			timeout = null;
+			fn.apply(_this, _arguments);
+		}, duration);
+	};
 }
 
 /***/ })
